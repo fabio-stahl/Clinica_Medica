@@ -35,6 +35,10 @@ public class Consulta {
         return paciente;
     }
 
+    public void setStatus(StatusConsulta statusConsulta) {
+        this.status = status;
+    }
+
     public enum StatusConsulta {
         AGENDADA, CANCELADA, REALIZADA
     }
