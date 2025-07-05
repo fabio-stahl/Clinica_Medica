@@ -1,4 +1,6 @@
 package com.clinica.sitema.repository;
 
-public class ConsultaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ConsultaRepository extends JpaRepository {
 }
