@@ -1,7 +1,12 @@
 package com.clinica.sitema.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.util.List;
 
+@Entity
+@Table(name = "medico_table")
 public class Medico extends Pessoa {
     private String especialidade;
     private String planoDeSaude;

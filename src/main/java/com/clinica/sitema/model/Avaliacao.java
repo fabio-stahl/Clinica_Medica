@@ -13,8 +13,10 @@ public class Avaliacao {
         this.comentario = comentario;
     }
 
-    public int getNota() { return nota; }
-    public String getComentario() { return comentario; }
+    public int getNota() {
+        return nota; }
+    public String getComentario() {
+        return comentario; }
 
     // outros getters
 }
