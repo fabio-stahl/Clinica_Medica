@@ -1,6 +1,10 @@
 package com.clinica.sitema.model;
 
+import jakarta.persistence.Id;
+
 public abstract class Pessoa {
+    @Id
+
     protected String nome;
     protected String senha;
 
