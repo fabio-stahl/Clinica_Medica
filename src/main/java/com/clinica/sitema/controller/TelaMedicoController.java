@@ -1,10 +1,32 @@
 package com.clinica.sitema.controller;
 
+import com.clinica.sitema.model.Medico;
+import com.clinica.sitema.service.MedicoService;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
-@RequestMapping("/Medico")
+@RequestMapping("/medicos")
 public class TelaMedicoController {
+
+    private final MedicoService medicoService;
+
+    public TelaMedicoController(MedicoService medicoService) {
+        this.medicoService = medicoService;
+    }
+
+    @GetMapping
+    public List<Medico> listarMedicos() {
+        // Implemente no MedicoService
+        return medicoService.listarTodos();
+    }
+
+    @GetMapping("/buscar")
+    public List<Medico> buscarPorEspecialidadeEPlano(
+            @RequestParam(required = false) String especialidade,
+            @RequestParam(required = false) String plano) {
+        // Implemente no MedicoService
+        return medicoService.buscar(especialidade, plano);
+    }
 }

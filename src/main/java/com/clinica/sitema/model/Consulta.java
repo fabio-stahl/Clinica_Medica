@@ -3,8 +3,8 @@ package com.clinica.sitema.model;
 import java.time.LocalDate;
 
 public class Consulta {
-    private Medico medico;
-    private Paciente paciente;
+    private final Medico medico;
+    private final Paciente paciente;
     private LocalDate data;
     private String descricao;
     private StatusConsulta status;

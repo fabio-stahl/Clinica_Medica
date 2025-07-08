@@ -3,8 +3,8 @@ package com.clinica.sitema.model;
 import java.util.List;
 
 public class Medico extends Pessoa {
-    private String especialidade;
-    private String planoDeSaude;
+    private final String especialidade;
+    private final String planoDeSaude;
     private List<Avaliacao> avaliacoes;
 
     public Medico(String nome, String senha, String especialidade, String planoDeSaude) {
