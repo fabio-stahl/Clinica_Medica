@@ -1,7 +1,6 @@
 package com.clinica.sitema.controller;
 
 import com.clinica.sitema.service.ConsultaService;
-import com.clinica.sitema.service.ConsultaService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
