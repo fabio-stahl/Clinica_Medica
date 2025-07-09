@@ -2,7 +2,6 @@ package com.clinica.sitema.model;
 
 import java.util.List;
 
-@Entity
 public class Medico extends Pessoa {
     private final String especialidade;
     private final String planoDeSaude;

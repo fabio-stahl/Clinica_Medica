@@ -17,5 +17,16 @@
         </form>
         <button class="voltar-btn" onclick="window.location.href='login.html'">Voltar ao Login</button>
     </section>
+    <script>
+        document.getElementById('formCadastroPaciente').addEventListener('submit', function(event) {
+            event.preventDefault(); // evita envio do formulário
+
+            // Aqui você pode adicionar lógica para enviar os dados para o back-end
+
+            // Redireciona para a página de login
+            window.location.href = 'login.html';
+        });
+    </script>
+
 </body>
 </html>
