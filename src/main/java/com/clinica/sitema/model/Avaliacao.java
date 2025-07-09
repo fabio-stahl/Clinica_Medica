@@ -16,6 +16,7 @@ public class Avaliacao {
     private Paciente paciente;
 
     @ManyToOne
+    @JoinColumn(name = "medico_id")
     private Medico medico;
 
     private int nota;
@@ -35,4 +36,8 @@ public class Avaliacao {
 
     public Paciente getPaciente() { return paciente; }
     public Medico getMedico() { return medico; }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
 }
