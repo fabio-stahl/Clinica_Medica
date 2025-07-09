@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cancelar Consulta</title>
+  <link rel="stylesheet" href="cancelar_consulta.css" />
+</head>
+<body>
+  <section class="form-container">
+    <h1>Cancelar Consulta</h1>
+    <form id="formCancelar">
+      <input type="text" id="nomePaciente" placeholder="Nome do Paciente" required />
+      <input type="datetime-local" id="dataHora" required />
+      <button type="submit">Cancelar Consulta</button>
+    </form>
+    <button onclick="window.location.href='paciente.html'">Voltar</button>
+  </section>
+  <script src="cancelar_consulta.js"></script>
+</body>
+</html>

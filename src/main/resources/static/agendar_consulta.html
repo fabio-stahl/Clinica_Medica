@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agendar Consulta</title>
+  <link rel="stylesheet" href="agendar_consulta.css" />
+</head>
+<body>
+  <section class="form-container">
+    <h1>Agendar Consulta</h1>
+    <form id="formConsulta">
+      <input type="text" id="nomePaciente" placeholder="Nome do Paciente" required />
+      <input type="text" id="nomeMedico" placeholder="Nome do Médico" required />
+      <input type="datetime-local" id="dataHora" required />
+      <textarea id="motivo" placeholder="Motivo da consulta" rows="3"></textarea>
+      <button type="submit">Agendar</button>
+    </form>
+    <button onclick="window.location.href='paciente.html'">Voltar</button>
+  </section>
+  <script src="agendar_consulta.js"></script>
+</body>
+</html>

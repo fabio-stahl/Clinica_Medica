@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Buscar Médicos</title>
+<link rel="stylesheet" href="buscar_medicos.css" />
+</head>
+<body>
+<header>
+    <h1>Buscar Médicos</h1>
+    <input type="text" id="filtroNome" placeholder="Filtrar por nome..." />
+    <input type="text" id="filtroEspecialidade" placeholder="Filtrar por especialidade..." />
+    <button onclick="buscarMedicos()">Buscar</button>
+</header>
+
+<section id="lista-medicos" class="lista-medicos">
+    <!-- Médicos serão inseridos aqui -->
+</section>
+
+<button onclick="window.location.href='paciente.html'" style="margin-top: 20px; padding: 10px; background-color: #888; color: white; border: none; border-radius: 8px; cursor: pointer;">Voltar</button>
+
+<script src="buscar_medicos.js"></script>
+</body>
+</html>

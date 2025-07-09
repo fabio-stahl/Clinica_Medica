@@ -1,104 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Área do Paciente</title>
-    <link rel="stylesheet" href="paciente.css">
+  <meta charset="UTF-8" />
+  <title>Área do Paciente</title>
+  <link rel="stylesheet" href="paciente.css" />
 </head>
 <body>
-    <header>
-        <h1>Bem-vindo, <span id="nomePaciente"></span></h1>
-        <p>Pesquise médicos abaixo:</p>
-    </header>
+  <section class="dados-paciente">
+    <h1>Bem-vindo, <span id="nomePaciente">Paciente</span></h1>
+    <p><strong>Idade:</strong> <span id="idadePaciente">--</span></p>
+    <p><strong>Plano de Saúde:</strong> <span id="planoPaciente">--</span></p>
+  </section>
 
-    <section class="filtro-container">
-        <input type="text" id="filtroNome" placeholder="Pesquisar por nome...">
-        <input type="text" id="filtroEspecialidade" placeholder="Pesquisar por especialidade...">
-        <button onclick="filtrarMedicos()">Filtrar</button>
-    </section>
+  <section class="menu-botoes">
+    <h2>Menu</h2>
+    <div class="botoes-container">
+      <button onclick="window.location.href='buscar_medicos.html'">Buscar Médicos</button>
+      <button onclick="window.location.href='agendar_consulta.html'">Agendar Consulta</button>
+      <button onclick="window.location.href='cancelar_consulta.html'">Cancelar Consulta</button>
+      <button onclick="window.location.href='login.html'">Voltar</button>
+    </div>
+  </section>
 
-    <section id="listaMedicos" class="lista-medicos"></section>
-
-    <script>
-        const pacienteTemPlano = true; // Mude para false se o paciente não tiver plano
-        const planoPaciente = "Plano Ouro"; // Se tiver plano
-
-        const nome = localStorage.getItem("usuario") || "Paciente";
-        document.getElementById("nomePaciente").textContent = nome;
-
-        const medicos = [
-            {
-                nome: "Dr. Ana Silva",
-                especialidade: "Cardiologia",
-                plano: "Plano Ouro",
-                estrelas: 5,
-                avaliacoes: ["Excelente profissional", "Muito atenciosa"]
-            },
-            {
-                nome: "Dr. João Sousa",
-                especialidade: "Ortopedia",
-                plano: "Plano Prata",
-                estrelas: 4,
-                avaliacoes: ["Bom atendimento", "Consultório limpo"]
-            },
-            {
-                nome: "Dra. Carla Mendes",
-                especialidade: "Dermatologia",
-                plano: "Plano Ouro",
-                estrelas: 3,
-                avaliacoes: ["Poderia ser mais pontual"]
-            },
-            {
-                nome: "Dr. Ricardo Lima",
-                especialidade: "Clínica Geral",
-                plano: "Plano Bronze",
-                estrelas: 4,
-                avaliacoes: ["Resolveu meu problema", "Simples e direto"]
-            }
-        ];
-
-        function renderizarMedicos(lista) {
-            const container = document.getElementById("listaMedicos");
-            container.innerHTML = "";
-
-            if (lista.length === 0) {
-                container.innerHTML = "<p>Nenhum médico encontrado.</p>";
-                return;
-            }
-
-            lista.forEach(medico => {
-                const card = document.createElement("div");
-                card.className = "card-medico";
-                card.innerHTML = `
-                    <h3>${medico.nome}</h3>
-                    <p><strong>Especialidade:</strong> ${medico.especialidade}</p>
-                    <p><strong>Plano:</strong> ${medico.plano}</p>
-                    <p><strong>Estrelas:</strong> ${"★".repeat(medico.estrelas)}</p>
-                    <p><strong>Últimas Avaliações:</strong></p>
-                    <ul>${medico.avaliacoes.map(a => `<li>${a}</li>`).join('')}</ul>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function filtrarMedicos() {
-            const nome = document.getElementById("filtroNome").value.toLowerCase();
-            const esp = document.getElementById("filtroEspecialidade").value.toLowerCase();
-
-            let filtrados = medicos.filter(m =>
-                m.nome.toLowerCase().includes(nome) &&
-                m.especialidade.toLowerCase().includes(esp)
-            );
-
-            if (pacienteTemPlano) {
-                filtrados = filtrados.filter(m => m.plano === planoPaciente);
-            }
-
-            renderizarMedicos(filtrados);
-        }
-
-        // Inicializa com os médicos visíveis segundo o plano
-        filtrarMedicos();
-    </script>
 </body>
 </html>

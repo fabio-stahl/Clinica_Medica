@@ -9,7 +9,7 @@ body {
   min-height: 100vh;
 }
 
-.dados-paciente, .menu-botoes {
+.dados-medico, .menu-botoes {
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
@@ -20,12 +20,12 @@ body {
   text-align: center;
 }
 
-.dados-paciente h1 {
+.dados-medico h1 {
   color: #2c3e50;
   margin-bottom: 10px;
 }
 
-.dados-paciente p {
+.dados-medico p {
   font-size: 1rem;
   margin: 6px 0;
   color: #333;
@@ -55,4 +55,4 @@ body {
 
 .botoes-container button:hover {
   background-color: #0f5bd7;
-}
+} 

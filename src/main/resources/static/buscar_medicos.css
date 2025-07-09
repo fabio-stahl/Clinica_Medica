@@ -1,0 +1,75 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+header h1 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+header input {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+header button {
+  padding: 10px 20px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+header button:hover {
+  background-color: #0f5bd7;
+}
+
+.lista-medicos {
+  width: 100%;
+  max-width: 700px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.card-medico {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+}
+
+.card-medico:last-child {
+  border-bottom: none;
+}
+
+.card-medico h3 {
+  margin: 0;
+  color: #1a73e8;
+}
+
+.card-medico p {
+  margin: 4px 0;
+} 
