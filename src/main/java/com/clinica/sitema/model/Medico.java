@@ -12,8 +12,10 @@ import java.util.List;
 @Entity
 @Table(name = "medico_table")
 public class Medico extends Pessoa {
+
     private String especialidade;
     private String planoDeSaude;
+
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Avaliacao> avaliacoes = new ArrayList<>();
 
@@ -39,6 +41,16 @@ public class Medico extends Pessoa {
     public void setPlanoDeSaude(String planoDeSaude) {
         this.planoDeSaude = planoDeSaude;
     }
+    public void addAvaliacao(Avaliacao avaliacao) {
+        avaliacoes.add(avaliacao);
+        avaliacao.setMedico(this);
+    }
+
+    public void removeAvaliacao(Avaliacao avaliacao) {
+        avaliacoes.remove(avaliacao);
+        avaliacao.setMedico(null);
+    }
+
 
     // setters, equals/hashCode, etc...
 }

@@ -48,6 +48,6 @@ public class PacienteService {
 
 
     public Paciente buscarPorId(Long pacienteId) {
-        return medicoRepository.findById(pacienteId).orElse(null);
+        return (Paciente) pacienteRepository.findById(pacienteId).orElse(null);
     }
 }

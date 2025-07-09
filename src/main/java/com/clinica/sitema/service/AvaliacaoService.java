@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class AvaliacaoService {
     @Autowired
     private ConsultaRepository consultaRepository;
+    @Autowired
     private AvaliacaoRepository avaliacaoRepository;
 
     public void avaliarConsulta(String mensagem, Medico medico, Paciente paciente, int nota){
