@@ -9,7 +9,7 @@ import com.clinica.sistema.service.ConsultaService;
 import com.clinica.sistema.service.MedicoService;
 import com.clinica.sistema.service.PacienteService;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -42,7 +42,7 @@ public class TelaPacienteController {
             @RequestParam Long pacienteId,
             @RequestParam String data) {
         // converte data String para LocalDate
-        LocalDate localDate = LocalDate.parse(data);
+        LocalDateTime localDate = LocalDateTime.parse(data);
 
         Medico medico = medicoService.buscarPorId(medicoId);
         Paciente paciente = pacienteService.buscarPorId(pacienteId);

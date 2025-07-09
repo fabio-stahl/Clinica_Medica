@@ -13,7 +13,10 @@ document.getElementById("pacienteLogin").addEventListener("submit", async functi
         });
 
         if (response.ok) {
-            localStorage.setItem("usuario", nome);
+            // Recebe o paciente completo do backend
+            const paciente = await response.json();
+            // Salva no localStorage para uso em paciente.html
+            localStorage.setItem("paciente", JSON.stringify(paciente));
             window.location.href = "paciente.html";
         } else {
             alert("Login do paciente inválido");
@@ -39,7 +42,8 @@ document.getElementById("medicoLogin").addEventListener("submit", async function
         });
 
         if (response.ok) {
-            localStorage.setItem("usuario", nome);
+            const medico = await response.json();
+            localStorage.setItem("medico", JSON.stringify(medico));
             window.location.href = "medico.html";
         } else {
             alert("Login do médico inválido");

@@ -2,6 +2,7 @@ package com.clinica.sistema.service;
 
 //package clinica.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.clinica.sistema.model.Pessoa;
@@ -11,7 +12,9 @@ import com.clinica.sistema.repository.PacienteRepository;
 
 @Service
 public class LoginService {
+    @Autowired
     private MedicoRepository medicoRepository;
+    @Autowired
     private PacienteRepository pacienteRepository;
 
     public Pessoa autenticar(String nome, String senha) {

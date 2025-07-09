@@ -43,3 +43,36 @@ function renderizarMedicos(medicos) {
 
 // Opcional: buscar todos ao carregar
 window.addEventListener('DOMContentLoaded', buscarMedicos);
+
+document.getElementById('formConsulta').addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  const nomePaciente = document.getElementById('nomePaciente').value.trim();
+  const nomeMedico = document.getElementById('nomeMedico').value.trim();
+  const dataHora = document.getElementById('dataHora').value;
+  const motivo = document.getElementById('motivo').value.trim();
+
+  try {
+    const response = await fetch('/consultas/agendar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nomePaciente,
+        nomeMedico,
+        dataHora,
+        motivo
+      })
+    });
+
+    if (response.ok) {
+      alert('Consulta agendada com sucesso!');
+      window.location.href = 'paciente.html';
+    } else {
+      const msg = await response.text();
+      alert('Erro ao agendar consulta: ' + msg);
+    }
+  } catch (error) {
+    alert('Erro ao conectar com o servidor.');
+    console.error(error);
+  }
+});

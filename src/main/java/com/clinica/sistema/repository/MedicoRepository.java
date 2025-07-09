@@ -9,7 +9,6 @@ import com.clinica.sistema.model.Medico;
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
     boolean existsByNome(String nome);
     Medico findByNome(String nome);
-    void save();
     List<Medico> findByNomeAndEspecialidadeAndPlanoDeSaude(String nome, String especialidade, String planoDeSaude);
     List<Medico> findByNomeAndEspecialidade(String nome, String especialidade);
     List<Medico> findByNomeContainingIgnoreCase(String nome);

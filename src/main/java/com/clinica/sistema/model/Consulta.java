@@ -1,27 +1,45 @@
 package com.clinica.sistema.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Consulta {
-    private final Medico medico;
-    private final Paciente paciente;
-    private LocalDate data;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Medico medico;
+    private Paciente paciente;
+    private LocalDateTime data;
     private String descricao;
     private StatusConsulta status;
 
-    public Consulta(Medico medico, Paciente paciente, LocalDate data) {
+    public Consulta(Paciente paciente, Medico medico, LocalDateTime data2) {
         this.medico = medico;
         this.paciente = paciente;
-        this.data = data;
+        this.data = data2;
         this.status = StatusConsulta.AGENDADA;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 
     public Medico getMedico() {
         return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
     }
 
     public void cancelar() {
@@ -36,6 +54,10 @@ public class Consulta {
         return paciente;
     }
 
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
     public void setStatus(StatusConsulta statusConsulta) {
         this.status = status;
     }
@@ -47,5 +69,7 @@ public class Consulta {
     public StatusConsulta getStatus(){
         return status;
     }
+
+    
     // getters e setters
 }

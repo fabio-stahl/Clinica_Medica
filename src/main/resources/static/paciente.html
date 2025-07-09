@@ -22,5 +22,15 @@
     </div>
   </section>
 
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const paciente = JSON.parse(localStorage.getItem("paciente"));
+    if (paciente) {
+        document.getElementById("nomePaciente").textContent = paciente.nome;
+        document.getElementById("idadePaciente").textContent = paciente.idade;
+        document.getElementById("planoPaciente").textContent = paciente.planoDeSaude;
+    }
+});
+</script>
 </body>
 </html>

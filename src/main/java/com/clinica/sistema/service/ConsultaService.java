@@ -8,20 +8,21 @@ import com.clinica.sistema.repository.ConsultaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class ConsultaService {
 
     private final ConsultaRepository consultas;
-    private final Map<Medico, Map<LocalDate, Queue<Paciente>>> listaEspera = new HashMap<>();
+    private final Map<Medico, Map<LocalDateTime, Queue<Paciente>>> listaEspera = new HashMap<>();
 
     public ConsultaService(ConsultaRepository consultas) {
         this.consultas = consultas;
     }
 
-    public void agendarConsulta(Medico medico, Paciente paciente, LocalDate data) {
-        if (data.isBefore(LocalDate.now())) {
+    public void agendarConsulta(Medico medico, Paciente paciente, LocalDateTime data) {
+        if (data.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Não é possível agendar para datas passadas.");
         }
 
@@ -44,7 +45,7 @@ public class ConsultaService {
                 .count();
 
         if (count < 3) {
-            Consulta novaConsulta = new Consulta(medico, paciente, data);
+            Consulta novaConsulta = new Consulta(paciente, medico, data);
             consultas.save(novaConsulta);
         } else {
             listaEspera
@@ -59,7 +60,7 @@ public class ConsultaService {
         consultas.save(consulta);
 
         Medico medico = consulta.getMedico();
-        LocalDate data = consulta.getData();
+        LocalDateTime data = consulta.getData();
 
         Queue<Paciente> fila = listaEspera
                 .getOrDefault(medico, Collections.emptyMap())
@@ -67,7 +68,7 @@ public class ConsultaService {
 
         if (fila != null && !fila.isEmpty()) {
             Paciente proximo = fila.poll();
-            Consulta nova = new Consulta(medico, proximo, data);
+            Consulta nova = new Consulta(proximo, medico, data);
             consultas.save(nova);
         }
     }
