@@ -8,6 +8,8 @@ import com.clinica.sitema.service.MedicoService;
 import com.clinica.sitema.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -61,4 +63,14 @@ public class TelaPacienteController {
             return "Erro ao agendar consulta: " + e.getMessage();
         }
     }
+    @GetMapping("/pesquisar")
+    public List<Medico> pesquisarMedicos(
+            @RequestParam String nome,
+            @RequestParam String especialidade,
+            @AuthenticationPrincipal Paciente pacienteLogado) {
+
+        return medicoService.pesquisarMedicos(nome, especialidade, pacienteLogado);
+    }
+
+
 }
