@@ -1,11 +1,13 @@
 package com.clinica.sitema.controller;
 
 import com.clinica.sitema.service.ConsultaService;
+import com.clinica.sitema.service.ConsultaService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/consultas")
 public class TelaConsultaController {
+    private final ConsultaService consultaService;
 
     private final ConsultaService consultaService;
 
@@ -26,5 +28,8 @@ public class TelaConsultaController {
     @PostMapping("/realizar")
     public void realizar(@RequestParam Long idConsulta, @RequestParam String descricao) {
         // Busque Consulta pelo id e chame consultaService.realizarConsulta(...)
+    }
+    public TelaConsultaController(ConsultaService consultaService) {
+        this.consultaService = consultaService;
     }
 }

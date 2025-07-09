@@ -1,31 +1,35 @@
 package com.clinica.sitema.service;
 
-import java.util.List;
+//package clinica.service;
 
 import org.springframework.stereotype.Service;
 
-import com.clinica.sitema.model.Medico;
-import com.clinica.sitema.model.Paciente;
 import com.clinica.sitema.model.Pessoa;
+import com.clinica.sitema.repository.MedicoRepository;
+import com.clinica.sitema.repository.PacienteRepository;
 
 
 @Service
 public class LoginService {
-    private List<Paciente> pacientes;
-    private List<Medico> medicos;
-
-    public LoginService(List<Paciente> pacientes, List<Medico> medicos) {
-        this.pacientes = pacientes;
-        this.medicos = medicos;
-    }
+    private MedicoRepository medicoRepository;
+    private PacienteRepository pacienteRepository;
 
     public Pessoa autenticar(String nome, String senha) {
-        for (Paciente p : pacientes) {
-            if (p.getNome().equals(nome) && p.getSenha().equals(senha)) return p;
+        // Primeiro, tenta achar como médico
+        Pessoa p = medicoRepository.findByNome(nome);
+        if (p != null && p.getSenha().equals(senha)) {
+            return p;
         }
-        for (Medico m : medicos) {
-            if (m.getNome().equals(nome) && m.getSenha().equals(senha)) return m;
+
+        // Se não achou ou a senha não bate, tenta como paciente
+        Pessoa pp = pacienteRepository.findByNome(nome);
+        if (pp != null && pp.getSenha().equals(senha)) {
+            return pp;
         }
+
+        // Não encontrado ou senha incorreta
         return null;
     }
+
+
 }

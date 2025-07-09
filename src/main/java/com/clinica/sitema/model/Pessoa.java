@@ -1,10 +1,14 @@
 package com.clinica.sitema.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 public abstract class Pessoa {
     @Id
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     protected String nome;
     protected String senha;
 
@@ -16,5 +20,11 @@ public abstract class Pessoa {
     public String getNome() { return nome; }
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
 }
 

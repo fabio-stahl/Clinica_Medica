@@ -2,31 +2,38 @@ package com.clinica.sitema.controller;
 
 import com.clinica.sitema.model.Medico;
 import com.clinica.sitema.service.MedicoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/medicos")
-public class TelaMedicoController {
+public class MedicoController {
 
-    private final MedicoService medicoService;
+    @Autowired
+    private MedicoService medicoService;
 
-    public TelaMedicoController(MedicoService medicoService) {
-        this.medicoService = medicoService;
+    // POST /medicos
+    @PostMapping
+    public ResponseEntity<String> cadastrarMedico(@RequestBody Medico medico) {
+        boolean cadastrado = medicoService.cadastrarMedico(medico);
+
+        if (cadastrado) {
+            return ResponseEntity.ok("Médico cadastrado com sucesso!");
+        } else {
+            return ResponseEntity.badRequest().body("Já existe um médico com esse nome.");
+        }
     }
 
-    @GetMapping
-    public List<Medico> listarMedicos() {
-        // Implemente no MedicoService
-        return medicoService.listarTodos();
-    }
+    // PUT /medicos/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<String> atualizarMedico(@PathVariable Long id, @RequestBody Medico medicoAtualizado) {
+        boolean atualizado = medicoService.alterarDados(id, medicoAtualizado);
 
-    @GetMapping("/buscar")
-    public List<Medico> buscarPorEspecialidadeEPlano(
-            @RequestParam(required = false) String especialidade,
-            @RequestParam(required = false) String plano) {
-        // Implemente no MedicoService
-        return medicoService.buscar(especialidade, plano);
+        if (atualizado) {
+            return ResponseEntity.ok("Médico atualizado com sucesso.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -20,12 +20,26 @@ public class ConsultaService {
     }
 
     public void agendarConsulta(Medico medico, Paciente paciente, LocalDate data) {
-        // Verifica se já existem 3 consultas para o médico nesse dia
+        if (data.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Não é possível agendar para datas passadas.");
+        }
+
+        // Verifica se paciente já tem consulta com o médico na data
+        boolean jaAgendado = consultas.findAll().stream()
+                .anyMatch(c -> c.getMedico().equals(medico)
+                        && c.getPaciente().equals(paciente)
+                        && c.getData().equals(data)
+                        && c.getStatus() == Consulta.StatusConsulta.AGENDADA);
+
+        if (jaAgendado) {
+            throw new IllegalStateException("Paciente já possui consulta com este médico nessa data.");
+        }
+
+        // Conta consultas ativas no dia
         long count = consultas.findAll().stream()
-                .map(c -> (Consulta) c)
-                .filter(c -> c.getMedico().equals(medico) &&
-                        c.getData().equals(data) &&
-                        c.getStatus() == Consulta.StatusConsulta.AGENDADA)
+                .filter(c -> c.getMedico().equals(medico)
+                        && c.getData().equals(data)
+                        && c.getStatus() == Consulta.StatusConsulta.AGENDADA)
                 .count();
 
         if (count < 3) {
@@ -41,7 +55,7 @@ public class ConsultaService {
 
     public void cancelarConsulta(Consulta consulta) {
         consulta.cancelar();
-        consultas.save(consulta); // atualiza no banco
+        consultas.save(consulta);
 
         Medico medico = consulta.getMedico();
         LocalDate data = consulta.getData();
@@ -57,10 +71,29 @@ public class ConsultaService {
         }
     }
 
-    public void realizarConsulta(Consulta consulta, String descricao) {
+    public double realizarConsulta(Consulta consulta, String descricao) {
         consulta.setDescricao(descricao);
         consulta.setStatus(Consulta.StatusConsulta.REALIZADA);
         consultas.save(consulta);
+
+        Paciente paciente = (Paciente) consulta.getPaciente();
+
+        if (paciente.getPlanoDeSaude() == null || paciente.getPlanoDeSaude().isBlank() || paciente.getPlanoDeSaude().equalsIgnoreCase("não tenho")) {
+            double valor = calcularValorConsulta(consulta.getMedico());
+            // Retorna o valor para o frontend exibir
+            return valor;
+        }
+        return 0.0; // paciente com plano não paga
+    }
+
+
+    private double calcularValorConsulta(Medico medico) {
+        return switch (medico.getEspecialidade().toLowerCase()) {
+            case "cardiologia" -> 300.0;
+            case "pediatria" -> 200.0;
+            case "ortopedia" -> 250.0;
+            default -> 180.0;
+        };
     }
 
     public List<Consulta> listarPorPaciente(Paciente paciente) {

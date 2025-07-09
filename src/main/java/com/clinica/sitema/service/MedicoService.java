@@ -1,31 +1,38 @@
 package com.clinica.sitema.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.clinica.sitema.model.Medico;
+import com.clinica.sitema.repository.MedicoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MedicoService {
-    private List<Medico> medicos = new ArrayList<>();
 
-    public List<Medico> listarTodos() {
-        return medicos;
-    }
+    @Autowired
+    private MedicoRepository medicoRepository;
 
-    public List<Medico> buscar(String especialidade, String plano) {
-        List<Medico> resultado = new ArrayList<>();
-        for (Medico m : medicos) {
-            boolean matchEspecialidade = (especialidade == null || especialidade.isEmpty() || m.getEspecialidade().equalsIgnoreCase(especialidade));
-            boolean matchPlano = (plano == null || plano.isEmpty() || m.getPlanoDeSaude().equalsIgnoreCase(plano));
-            if (matchEspecialidade && matchPlano) {
-                resultado.add(m);
-            }
+    public boolean cadastrarMedico(Medico medico) {
+        if (medicoRepository.existsByNome(medico.getNome())) {
+            return false;
         }
-        return resultado;
+        medicoRepository.save(medico);
+        return true;
     }
 
-    // Você pode adicionar métodos para adicionar médicos à lista, se necessário
+    public boolean alterarDados(Long id, Medico medicoAtualizado) {
+        if (medicoRepository.existsById(id)) {
+            Medico medico = medicoRepository.findById(id).get();
+            medico.setNome(medicoAtualizado.getNome());
+            medico.setEspecialidade(medicoAtualizado.getEspecialidade());
+            medico.setPlanoDeSaude(medicoAtualizado.getPlanoDeSaude());
+            // Outros campos, se houver
+            medicoRepository.save(medico);
+            return true;
+        }
+        return false;
+    }
+
+    public Medico buscarPorId(Long medicoId) {
+        return (Medico) medicoRepository.findById(medicoId).orElse(null);
+    }
 }
