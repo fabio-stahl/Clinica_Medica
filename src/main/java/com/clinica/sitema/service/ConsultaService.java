@@ -76,7 +76,7 @@ public class ConsultaService {
         consulta.setStatus(Consulta.StatusConsulta.REALIZADA);
         consultas.save(consulta);
 
-        Paciente paciente = consulta.getPaciente();
+        Paciente paciente = (Paciente) consulta.getPaciente();
 
         if (paciente.getPlanoDeSaude() == null || paciente.getPlanoDeSaude().isBlank() || paciente.getPlanoDeSaude().equalsIgnoreCase("não tenho")) {
             double valor = calcularValorConsulta(consulta.getMedico());

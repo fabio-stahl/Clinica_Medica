@@ -33,6 +33,6 @@ public class MedicoService {
     }
 
     public Medico buscarPorId(Long medicoId) {
-        return medicoRepository.findById(medicoId).orElse(null);
+        return (Medico) medicoRepository.findById(medicoId).orElse(null);
     }
 }
