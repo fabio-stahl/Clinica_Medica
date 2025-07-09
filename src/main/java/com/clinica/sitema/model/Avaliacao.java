@@ -1,43 +1,55 @@
 package com.clinica.sitema.model;
 
-import com.clinica.sitema.model.Medico;
-import com.clinica.sitema.model.Paciente;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Entity
-@Table(name = "avaliacao_table")
-public class Avaliacao {
+@Table(name = "medico_table")
+public class Medico extends Pessoa {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Enumerated(EnumType.STRING)
+    private Especialidade especialidade;
 
-    @ManyToOne
-    private Paciente paciente;
+    private String planoDeSaude;
 
-    @ManyToOne
-    @JoinColumn(name = "medico_id")
-    private Medico medico;
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
 
-    private int nota;
-    private String comentario;
 
-    public Avaliacao() {} // construtor vazio exigido pelo JPA
-
-    public Avaliacao(Paciente paciente, Medico medico, int nota, String comentario) {
-        this.paciente = paciente;
-        this.medico = medico;
-        this.nota = nota;
-        this.comentario = comentario;
+    public Medico(String nome, String senha, Especialidade especialidade, String planoDeSaude) {
+        super(nome, senha);
+        this.especialidade = especialidade;
+        this.planoDeSaude = planoDeSaude;
     }
 
-    public int getNota() { return nota; }
-    public String getComentario() { return comentario; }
+    public Especialidade getEspecialidade() { return especialidade; }
+    public String getPlanoDeSaude() { return planoDeSaude; }
+    public List<Avaliacao> getAvaliacoes() { return avaliacoes; }
 
-    public Paciente getPaciente() { return paciente; }
-    public Medico getMedico() { return medico; }
-
-    public void setMedico(Medico medico) {
-        this.medico = medico;
+    public double getMediaEstrelas() {
+        if (avaliacoes == null || avaliacoes.isEmpty()) return 0;
+        return avaliacoes.stream().mapToInt(Avaliacao::getNota).average().orElse(0);
     }
+
+    public void setEspecialidade(Especialidade especialidade) {
+        this.especialidade = especialidade;
+    }
+    public void setPlanoDeSaude(String planoDeSaude) {
+        this.planoDeSaude = planoDeSaude;
+    }
+    public void addAvaliacao(Avaliacao avaliacao) {
+        avaliacoes.add(avaliacao);
+        avaliacao.setMedico(this);
+    }
+
+    public void removeAvaliacao(Avaliacao avaliacao) {
+        avaliacoes.remove(avaliacao);
+        avaliacao.setMedico(null);
+    }
+
+
+    // setters, equals/hashCode, etc...
 }
