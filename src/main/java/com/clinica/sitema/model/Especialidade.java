@@ -23,4 +23,13 @@ public enum Especialidade {
     public String getDescricao() {
         return descricao;
     }
+
+    public boolean equalsIgnoreCase(String especialidade) {
+        if (especialidade == null || descricao == null) {
+            return false;
+        }
+        return descricao.equalsIgnoreCase(especialidade);
+    }
+
+
 }

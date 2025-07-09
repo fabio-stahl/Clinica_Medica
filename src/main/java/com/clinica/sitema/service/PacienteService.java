@@ -36,19 +36,27 @@ public class PacienteService {
                 paciente.getPlanoDeSaude().equalsIgnoreCase("Não tenho");
 
         for (Medico medico : medicoRepository.findAll()) {
-            boolean especialidadeConfere = medico.getEspecialidade().equalsIgnoreCase(especialidade);
-            boolean nomeConfere = medico.getNome().equalsIgnoreCase(nome);
+            // Verifica se o nome bate (ou ignora se o filtro estiver vazio)
+            boolean nomeConfere = nome == null || nome.isEmpty() ||
+                    (medico.getNome() != null && medico.getNome().equalsIgnoreCase(nome));
 
+            // Verifica se a especialidade bate (ou ignora se o filtro estiver vazio)
+            boolean especialidadeConfere = especialidade == null || especialidade.isEmpty() ||
+                    (medico.getEspecialidade() != null && medico.getEspecialidade().equalsIgnoreCase(especialidade));
+
+            // Verifica se o plano do médico bate com o do paciente ou se o paciente não tem plano
             boolean planoConfere = pacienteSemPlano ||
-                    paciente.getPlanoDeSaude().equalsIgnoreCase(medico.getPlanoDeSaude());
+                    (medico.getPlanoDeSaude() != null &&
+                            medico.getPlanoDeSaude().equalsIgnoreCase(paciente.getPlanoDeSaude()));
 
-            if (especialidadeConfere && planoConfere && nomeConfere) {
+            if (nomeConfere && especialidadeConfere && planoConfere) {
                 medicosEncontrados.add(medico);
             }
         }
 
         return medicosEncontrados;
     }
+
 
 
 

@@ -7,6 +7,8 @@ import com.clinica.sitema.model.Paciente;
 import com.clinica.sitema.model.Pessoa;
 import com.clinica.sitema.repository.MedicoRepository;
 import com.clinica.sitema.repository.PacienteRepository;
+import jakarta.persistence.Access;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,9 @@ import java.util.List;
 
 @Service
 public class LoginService {
+    @Autowired
     private MedicoRepository medicoRepository;
+    @Autowired
     private PacienteRepository pacienteRepository;
 
     public Pessoa autenticar(String nome, String senha) {
