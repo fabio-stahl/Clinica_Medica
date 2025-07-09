@@ -1,13 +1,12 @@
 package com.clinica.sitema.service;
 
-package clinica.service;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.clinica.sitema.model.Medico;
 import com.clinica.sitema.model.Paciente;
 import com.clinica.sitema.model.Pessoa;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service

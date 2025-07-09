@@ -17,6 +17,7 @@ public class Consulta {
     }
 
     public LocalDate getData() {
+        return data;
     }
 
     public Medico getMedico() {
