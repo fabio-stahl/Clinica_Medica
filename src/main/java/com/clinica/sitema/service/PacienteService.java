@@ -31,20 +31,25 @@ public class PacienteService {
     public List<Medico> pesquisarMedicos(String nome, String especialidade, Paciente paciente) {
         List<Medico> medicosEncontrados = new ArrayList<>();
 
+        boolean pacienteSemPlano = paciente.getPlanoDeSaude() == null ||
+                paciente.getPlanoDeSaude().isEmpty() ||
+                paciente.getPlanoDeSaude().equalsIgnoreCase("Não tenho");
+
         for (Medico medico : medicoRepository.findAll()) {
-            boolean nomeConfere = medico.getNome().equalsIgnoreCase(nome);
             boolean especialidadeConfere = medico.getEspecialidade().equalsIgnoreCase(especialidade);
-            boolean planoConfere = paciente.getPlanoDeSaude() == null ||
-                    paciente.getPlanoDeSaude().isEmpty() ||
+            boolean nomeConfere = medico.getNome().equalsIgnoreCase(nome);
+
+            boolean planoConfere = pacienteSemPlano ||
                     paciente.getPlanoDeSaude().equalsIgnoreCase(medico.getPlanoDeSaude());
 
-            if (nomeConfere && especialidadeConfere && planoConfere) {
+            if (especialidadeConfere && planoConfere && nomeConfere) {
                 medicosEncontrados.add(medico);
             }
         }
 
         return medicosEncontrados;
     }
+
 
 
     public Paciente buscarPorId(Long pacienteId) {

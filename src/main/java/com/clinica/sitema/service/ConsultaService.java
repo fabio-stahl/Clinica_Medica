@@ -24,7 +24,7 @@ public class ConsultaService {
             throw new IllegalArgumentException("Não é possível agendar para datas passadas.");
         }
 
-        // Verifica se paciente já tem consulta com o médico na data
+
         boolean jaAgendado = consultas.findAll().stream()
                 .anyMatch(c -> c.getMedico().equals(medico)
                         && c.getPaciente().equals(paciente)

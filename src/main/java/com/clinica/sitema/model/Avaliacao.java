@@ -16,6 +16,7 @@ public class Avaliacao {
     private Paciente paciente;
 
     @ManyToOne
+    @JoinColumn(name = "medico_id")
     private Medico medico;
 
     private int nota;
