@@ -1,23 +1,32 @@
 package com.clinica.sistema.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
     private Medico medico;
+
+    @ManyToOne
     private Paciente paciente;
+    
     private LocalDateTime data;
     private String descricao;
     private StatusConsulta status;
+
+    public Consulta() {
+        // Construtor padrão necessário para JPA
+    }
 
     public Consulta(Paciente paciente, Medico medico, LocalDateTime data2) {
         this.medico = medico;
@@ -59,7 +68,7 @@ public class Consulta {
     }
 
     public void setStatus(StatusConsulta statusConsulta) {
-        this.status = status;
+        this.status = statusConsulta;
     }
 
     public enum StatusConsulta {
