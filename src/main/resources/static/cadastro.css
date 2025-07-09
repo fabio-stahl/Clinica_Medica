@@ -1,67 +1,54 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #f7f9fc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+  margin: 0;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .form-container {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
 }
 
-h1 {
-    color: #2c3e50;
-    margin-bottom: 20px;
+.form-container h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
 }
 
-form input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #1a73e8;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    margin-top: 10px;
+form button,
+.form-container > button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
 }
 
-form button:hover {
-    background-color: #0f5bd7;
-}
-
-.voltar-btn {
-    margin-top: 15px;
-    padding: 10px;
-    width: 100%;
-    background-color: #aaa;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.voltar-btn:hover {
-    background-color: #888;
+form button:hover,
+.form-container > button:hover {
+  background-color: #0f5bd7;
 }

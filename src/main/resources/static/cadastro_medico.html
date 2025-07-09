@@ -10,20 +10,35 @@
         <h1>Cadastro de Médico</h1>
         <form id="formCadastroMedico">
             <input type="text" placeholder="Nome completo" required>
-            <input type="text" placeholder="Especialidade" required>
+            
+            <!-- Dropdown de especialidades -->
+            <select required>
+                <option value="" disabled selected>Selecione a especialidade</option>
+                <option value="Cardiologia">Cardiologia</option>
+                <option value="Dermatologia">Dermatologia</option>
+                <option value="Endocrinologia">Endocrinologia</option>
+                <option value="Gastroenterologia">Gastroenterologia</option>
+                <option value="Geriatria">Geriatria</option>
+                <option value="Ginecologia">Ginecologia</option>
+                <option value="Neurologia">Neurologia</option>
+                <option value="Oftalmologia">Oftalmologia</option>
+                <option value="Ortopedia">Ortopedia</option>
+                <option value="Pediatria">Pediatria</option>
+                <option value="Psiquiatria">Psiquiatria</option>
+                <option value="Urologia">Urologia</option>
+            </select>
+
             <input type="text" placeholder="Plano de Saúde que atende" required>
             <input type="password" placeholder="Senha" required>
             <button type="submit">Cadastrar</button>
         </form>
         <button class="voltar-btn" onclick="window.location.href='login.html'">Voltar ao Login</button>
     </section>
+
     <script>
-        document.getElementById('formCadastroPaciente').addEventListener('submit', function(event) {
-            event.preventDefault(); // evita envio do formulário
-
-            // Aqui você pode adicionar lógica para enviar os dados para o back-end
-
-            // Redireciona para a página de login
+        document.getElementById('formCadastroMedico').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // lógica para enviar os dados para o back-end
             window.location.href = 'login.html';
         });
     </script>
