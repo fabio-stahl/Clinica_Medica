@@ -1,28 +1,46 @@
 package com.clinica.sitema.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
-@Entity
-@Table(name = "paciente")
-public class Paciente extends Pessoa {
-    private int idade;
-    private String planoDeSaude;
+@MappedSuperclass
+public abstract class Pessoa {
 
-    public Paciente() {
-        super();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+    protected String nome;
+    protected String senha;
+
+    public Pessoa() {
+        // Construtor padrão exigido pelo JPA
     }
 
-    public Paciente(String nome, String senha, int idade, String planoDeSaude) {
-        super(nome, senha);
-        this.idade = idade;
-        this.planoDeSaude = planoDeSaude;
+    public Pessoa(String nome, String senha) {
+        this.nome = nome;
+        this.senha = senha;
     }
 
-    public int getIdade() { return idade; }
-    public String getPlanoDeSaude() { return planoDeSaude; }
+    public Long getId() {
+        return id;
+    }
 
-    public boolean temPlano() {
-        return planoDeSaude != null && !planoDeSaude.equalsIgnoreCase("não tenho");
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
