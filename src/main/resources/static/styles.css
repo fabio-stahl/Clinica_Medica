@@ -1,0 +1,97 @@
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo geral da página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #f0f4f8, #d9e2ec);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* Título principal */
+h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Seções de login */
+section {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título de cada formulário */
+section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #1a73e8;
+}
+
+/* Campos de entrada */
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+form input:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+
+/* Botão de login */
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 10px;
+}
+
+form button:hover {
+    background-color: #0f5bd7;
+}
+
+/* Botões de cadastro */
+.cadastro-btn,
+section > button:not(.cadastro-btn) {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.cadastro-btn:hover,
+section > button:not(.cadastro-btn):hover {
+    background-color: #3e8e41;
+}
