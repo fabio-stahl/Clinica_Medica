@@ -1,12 +1,13 @@
-package com.clinica.sitema.service;
+package com.clinica.sistema.service;
 
-import com.clinica.sitema.model.Consulta;
-import com.clinica.sitema.model.Medico;
-import com.clinica.sitema.model.Paciente;
-import com.clinica.sitema.repository.MedicoRepository;
-import com.clinica.sitema.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.clinica.sistema.model.Consulta;
+import com.clinica.sistema.model.Medico;
+import com.clinica.sistema.model.Paciente;
+import com.clinica.sistema.repository.MedicoRepository;
+import com.clinica.sistema.repository.PacienteRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,6 @@ public class PacienteService {
 
 
     public Paciente buscarPorId(Long pacienteId) {
-        return medicoRepository.findById(pacienteId).orElse(null);
+        return pacienteRepository.findById(pacienteId).orElse(null);
     }
 }

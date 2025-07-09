@@ -9,24 +9,14 @@
     <section class="form-container">
         <h1>Cadastro de Paciente</h1>
         <form id="formCadastroPaciente">
-            <input type="text" placeholder="Nome completo" required>
-            <input type="number" placeholder="Idade" required>
-            <input type="text" placeholder="Plano de Saúde (ou 'Não tenho')" required>
-            <input type="password" placeholder="Senha" required>
+            <input type="text" name="nome" placeholder="Nome completo" required>
+            <input type="number" name="idade" placeholder="Idade" required>
+            <input type="text" name="planoDeSaude" placeholder="Plano de Saúde (ou 'Não tenho')" required>
+            <input type="password" name="senha" placeholder="Senha" required>
             <button type="submit">Cadastrar</button>
         </form>
-        <button class="voltar-btn" onclick="window.location.href='login.html'">Voltar ao Login</button>
+        <button class="voltar-btn" onclick="window.location.href='index.html'">Voltar ao Login</button>
     </section>
-    <script>
-        document.getElementById('formCadastroPaciente').addEventListener('submit', function(event) {
-            event.preventDefault(); // evita envio do formulário
-
-            // Aqui você pode adicionar lógica para enviar os dados para o back-end
-
-            // Redireciona para a página de login
-            window.location.href = 'login.html';
-        });
-    </script>
-
+    <script src="cadastro_paciente.js"></script>
 </body>
 </html>

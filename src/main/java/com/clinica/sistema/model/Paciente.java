@@ -1,4 +1,4 @@
-package com.clinica.sitema.model;
+package com.clinica.sistema.model;
 
 public class Paciente extends Pessoa {
     private int idade;

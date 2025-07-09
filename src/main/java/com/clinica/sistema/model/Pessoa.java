@@ -1,4 +1,4 @@
-package com.clinica.sitema.model;
+package com.clinica.sistema.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

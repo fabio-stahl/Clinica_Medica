@@ -1,7 +1,7 @@
-package com.clinica.sitema.model;
+package com.clinica.sistema.model;
 
-import com.clinica.sitema.model.Medico;
-import com.clinica.sitema.model.Paciente;
+import com.clinica.sistema.model.Medico;
+import com.clinica.sistema.model.Paciente;
 import jakarta.persistence.*;
 
 @Entity

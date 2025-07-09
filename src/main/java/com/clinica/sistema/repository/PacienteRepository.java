@@ -1,12 +1,11 @@
-package com.clinica.sitema.repository;
+package com.clinica.sistema.repository;
 
-import com.clinica.sitema.model.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PacienteRepository extends JpaRepository {
+import com.clinica.sistema.model.Paciente;
 
+public interface PacienteRepository extends JpaRepository<Paciente, Long> {
     boolean existsByNome(String nome);
     Paciente findByNome(String nome);
     void save();
-
 }

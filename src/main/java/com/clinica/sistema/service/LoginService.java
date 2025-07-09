@@ -1,12 +1,12 @@
-package com.clinica.sitema.service;
+package com.clinica.sistema.service;
 
 //package clinica.service;
 
 import org.springframework.stereotype.Service;
 
-import com.clinica.sitema.model.Pessoa;
-import com.clinica.sitema.repository.MedicoRepository;
-import com.clinica.sitema.repository.PacienteRepository;
+import com.clinica.sistema.model.Pessoa;
+import com.clinica.sistema.repository.MedicoRepository;
+import com.clinica.sistema.repository.PacienteRepository;
 
 
 @Service

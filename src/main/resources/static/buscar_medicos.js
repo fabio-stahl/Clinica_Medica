@@ -2,7 +2,7 @@ async function buscarMedicos() {
   const nome = document.getElementById('filtroNome').value.trim();
   const especialidade = document.getElementById('filtroEspecialidade').value.trim();
 
-  let url = '/api/medicos';
+  let url = '/medicos';
   const params = [];
   if (nome) params.push(`nome=${encodeURIComponent(nome)}`);
   if (especialidade) params.push(`especialidade=${encodeURIComponent(especialidade)}`);
@@ -10,6 +10,7 @@ async function buscarMedicos() {
 
   try {
     const response = await fetch(url);
+    if (!response.ok) throw new Error('Erro na resposta do servidor');
     const medicos = await response.json();
     renderizarMedicos(medicos);
   } catch (error) {
@@ -22,7 +23,7 @@ function renderizarMedicos(medicos) {
   const container = document.getElementById('lista-medicos');
   container.innerHTML = '';
 
-  if (medicos.length === 0) {
+  if (!medicos || medicos.length === 0) {
     container.innerHTML = '<p>Nenhum médico encontrado.</p>';
     return;
   }
@@ -33,9 +34,13 @@ function renderizarMedicos(medicos) {
     card.innerHTML = `
       <h3>${medico.nome}</h3>
       <p><strong>Especialidade:</strong> ${medico.especialidade}</p>
-      <p><strong>Plano Aceito:</strong> ${medico.plano}</p>
-      <p><strong>Estrelas:</strong> ${medico.estrelas || 'N/A'}</p>
-      <p><strong>Últimas Avaliações:</strong> ${medico.avaliacoes?.join(' | ') || 'Nenhuma'}</p>
+      <p><strong>Plano Aceito:</strong> ${medico.planoDeSaude}</p>
+      <p><strong>Estrelas:</strong> ${medico.mediaEstrelas || 'N/A'}</p>
+      <p><strong>Últimas Avaliações:</strong> ${
+        medico.avaliacoes && medico.avaliacoes.length > 0
+          ? medico.avaliacoes.map(a => a.comentario).join(' | ')
+          : 'Nenhuma'
+      }</p>
     `;
     container.appendChild(card);
   });

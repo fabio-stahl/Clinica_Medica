@@ -1,11 +1,11 @@
-package com.clinica.sitema.service;
+package com.clinica.sistema.service;
 
 
-import com.clinica.sitema.model.Avaliacao;
-import com.clinica.sitema.model.Medico;
-import com.clinica.sitema.model.Paciente;
-import com.clinica.sitema.repository.AvaliacaoRepository;
-import com.clinica.sitema.repository.ConsultaRepository;
+import com.clinica.sistema.model.Avaliacao;
+import com.clinica.sistema.model.Medico;
+import com.clinica.sistema.model.Paciente;
+import com.clinica.sistema.repository.AvaliacaoRepository;
+import com.clinica.sistema.repository.ConsultaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

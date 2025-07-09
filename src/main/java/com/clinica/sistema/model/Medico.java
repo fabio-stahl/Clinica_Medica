@@ -1,4 +1,4 @@
-package com.clinica.sitema.model;
+package com.clinica.sistema.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,10 @@ public class Medico extends Pessoa {
         super(nome, senha);
         this.especialidade = especialidade;
         this.planoDeSaude = planoDeSaude;
+    }
+
+    public Medico() {
+        super("", "");
     }
 
     public String getEspecialidade() { return especialidade; }

@@ -1,13 +1,13 @@
-package com.clinica.sitema.controller;
+package com.clinica.sistema.controller;
 
-import com.clinica.sitema.model.Consulta;
-import com.clinica.sitema.model.Medico;
-import com.clinica.sitema.model.Paciente;
-import com.clinica.sitema.service.ConsultaService;
-import com.clinica.sitema.service.MedicoService;
-import com.clinica.sitema.service.PacienteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import com.clinica.sistema.model.Consulta;
+import com.clinica.sistema.model.Medico;
+import com.clinica.sistema.model.Paciente;
+import com.clinica.sistema.service.ConsultaService;
+import com.clinica.sistema.service.MedicoService;
+import com.clinica.sistema.service.PacienteService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,13 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/consulta")
 public class TelaPacienteController {
-    @Autowired
-    private final MedicoService medicoService;
-
     private final ConsultaService consultaService;
     private final PacienteService pacienteService;
+    private final MedicoService medicoService;
 
-    @Autowired
     public TelaPacienteController(MedicoService medicoService, ConsultaService consultaService, PacienteService pacienteService) {
         this.medicoService = medicoService;
         this.consultaService = consultaService;
@@ -60,12 +57,6 @@ public class TelaPacienteController {
         } catch (Exception e) {
             return "Erro ao agendar consulta: " + e.getMessage();
         }
-    }
-
-    private final ConsultaService consultaService;
-
-    public TelaPacienteController(ConsultaService consultaService) {
-        this.consultaService = consultaService;
     }
 
     @GetMapping("/consultas")

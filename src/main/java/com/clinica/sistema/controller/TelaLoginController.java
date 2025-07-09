@@ -1,7 +1,7 @@
-package com.clinica.sitema.controller;
+package com.clinica.sistema.controller;
 
-import com.clinica.sitema.model.Pessoa;
-import com.clinica.sitema.service.LoginService;
+import com.clinica.sistema.model.Pessoa;
+import com.clinica.sistema.service.LoginService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

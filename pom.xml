@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.clinica</groupId>
-	<artifactId>sitema</artifactId>
+	<artifactId>sistema</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sitema</name>
+	<name>sistema</name>
 	<description>Sistema de cadastro de consultas</description>
 	<url/>
 	<licenses>
