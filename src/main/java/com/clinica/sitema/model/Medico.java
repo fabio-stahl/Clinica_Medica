@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "medico_table")
-public class Medico extends Pessoa {
+public class Medico extends Paciente {
     private String especialidade;
     private String planoDeSaude;
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "medico_table")
-public class Medico extends Pessoa {
+public class Medico extends Paciente {
 
     @Enumerated(EnumType.STRING)
     private Especialidade especialidade;

@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public abstract class Pessoa {
+public abstract class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +15,11 @@ public abstract class Pessoa {
     protected String nome;
     protected String senha;
 
-    public Pessoa() {
+    public Paciente() {
         // Construtor padrão exigido pelo JPA
     }
 
-    public Pessoa(String nome, String senha) {
+    public Paciente(String nome, String senha) {
         this.nome = nome;
         this.senha = senha;
     }
