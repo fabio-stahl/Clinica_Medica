@@ -16,7 +16,7 @@ document.getElementById('formCadastroMedico').addEventListener('submit', async f
     };
 
     try {
-        const response = await fetch('/medicos', {
+        const response = await fetch('/buscarmedicos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

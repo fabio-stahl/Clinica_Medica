@@ -2,7 +2,7 @@ async function buscarMedicos() {
   const nome = document.getElementById('filtroNome').value.trim();
   const especialidade = document.getElementById('filtroEspecialidade').value.trim();
 
-  let url = '/medicos';
+  let url = '/buscarmedicos';
   const params = [];
   if (nome) params.push(`nome=${encodeURIComponent(nome)}`);
   if (especialidade) params.push(`especialidade=${encodeURIComponent(especialidade)}`);

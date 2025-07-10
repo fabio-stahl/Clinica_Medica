@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,18 +18,20 @@ import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.service.MedicoService;
 
 @RestController
-@RequestMapping("/medicos")
+@RequestMapping("/buscarmedicos")
+@CrossOrigin(origins = "*")
 public class MedicoController {
 
     @Autowired
     private MedicoService medicoService;
 
     // POST /medicos
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<String> cadastrarMedico(@RequestBody Medico medico) {
         medicoService.cadastrarMedico(medico);
         return ResponseEntity.ok("Médico cadastrado com sucesso!");
     }
+
 
     // PUT /medicos/{id}
     @PutMapping("/{id}")
