@@ -42,23 +42,28 @@ public class ImportacaoController {
 
                 if (nomeArquivo == null) continue;
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8));
                 String linha = reader.readLine(); // Pula o cabeçalho
 
                 while ((linha = reader.readLine()) != null) {
                     String[] campos = linha.split(",");
 
                     switch (nomeArquivo) {
+
                         case "pacientes.csv" -> {
+                            if (campos.length < 4) continue; // Proteção contra erro de linha
                             Paciente paciente = new Paciente();
                             paciente.setId(Long.parseLong(campos[0]));
                             paciente.setNome(campos[1]);
+                            paciente.setIdade(Integer.parseInt(campos[2])); // ✅ Corrigido
                             paciente.setPlanoDeSaude(campos[3]);
                             pacienteRepository.save(paciente);
                             pacientesCache.put(paciente.getId(), paciente);
                         }
 
                         case "medicos.csv" -> {
+                            if (campos.length < 4) continue;
                             Medico medico = new Medico();
                             medico.setId(Long.parseLong(campos[0]));
                             medico.setNome(campos[1]);
@@ -67,14 +72,18 @@ public class ImportacaoController {
                             medicoRepository.save(medico);
                             medicosCache.put(medico.getId(), medico);
                         }
+
                         case "consultas.csv" -> {
+                            if (campos.length < 6) continue;
                             Consulta consulta = new Consulta();
                             consulta.setId(Long.parseLong(campos[0]));
                             Long idMedico = Long.parseLong(campos[1]);
                             Long idPaciente = Long.parseLong(campos[2]);
 
-                            Medico medico = medicosCache.getOrDefault(idMedico, medicoRepository.findById(idMedico).orElse(null));
-                            Paciente paciente = pacientesCache.getOrDefault(idPaciente, pacienteRepository.findById(idPaciente).orElse(null));
+                            Medico medico = medicosCache.getOrDefault(idMedico,
+                                    medicoRepository.findById(idMedico).orElse(null));
+                            Paciente paciente = pacientesCache.getOrDefault(idPaciente,
+                                    pacienteRepository.findById(idPaciente).orElse(null));
 
                             consulta.setMedico(medico);
                             consulta.setPaciente(paciente);
@@ -83,14 +92,18 @@ public class ImportacaoController {
                             consulta.setDescricao(campos[5]);
                             consultaRepository.save(consulta);
                         }
+
                         case "avaliacoes.csv" -> {
+                            if (campos.length < 5) continue;
                             Avaliacao avaliacao = new Avaliacao();
                             avaliacao.setId(Long.parseLong(campos[0]));
                             Long idPaciente = Long.parseLong(campos[1]);
                             Long idMedico = Long.parseLong(campos[2]);
 
-                            Paciente paciente = pacientesCache.getOrDefault(idPaciente, pacienteRepository.findById(idPaciente).orElse(null));
-                            Medico medico = medicosCache.getOrDefault(idMedico, medicoRepository.findById(idMedico).orElse(null));
+                            Paciente paciente = pacientesCache.getOrDefault(idPaciente,
+                                    pacienteRepository.findById(idPaciente).orElse(null));
+                            Medico medico = medicosCache.getOrDefault(idMedico,
+                                    medicoRepository.findById(idMedico).orElse(null));
 
                             avaliacao.setPaciente(paciente);
                             avaliacao.setMedico(medico);
@@ -100,6 +113,7 @@ public class ImportacaoController {
                         }
                     }
                 }
+
                 reader.close();
             }
 
@@ -107,7 +121,9 @@ public class ImportacaoController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Erro ao importar arquivos: " + e.getMessage());
+            return ResponseEntity
+                    .badRequest()
+                    .body("Erro ao importar arquivos: " + e.getMessage());
         }
     }
 }

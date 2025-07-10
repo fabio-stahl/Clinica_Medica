@@ -29,4 +29,7 @@ public class Paciente extends Pessoa {
         this.planoDeSaude=planoDeSaude;
     }
 
+    public void setIdade(int i) {
+        this.idade = idade;
+    }
 }
