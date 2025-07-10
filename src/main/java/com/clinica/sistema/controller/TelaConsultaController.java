@@ -1,5 +1,6 @@
 package com.clinica.sistema.controller;
 
+import com.clinica.sistema.exception.RecursoNaoEncontradoException;
 import com.clinica.sistema.model.Consulta;
 import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.model.Paciente;
@@ -34,11 +35,10 @@ public class TelaConsultaController {
     @PostMapping("/agendar")
     public ResponseEntity<String> agendarConsulta(@RequestBody AgendamentoDTO dto) {
         Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
-        Medico medico = medicoRepository.findByNome(dto.getNomeMedico());
+        if (paciente == null) throw new RecursoNaoEncontradoException("Paciente não encontrado.");
 
-        if (paciente == null || medico == null) {
-            return ResponseEntity.badRequest().body("Paciente ou médico não encontrado.");
-        }
+        Medico medico = medicoRepository.findByNome(dto.getNomeMedico());
+        if (medico == null) throw new RecursoNaoEncontradoException("Médico não encontrado.");
 
         Consulta consulta = new Consulta(paciente, medico, LocalDateTime.parse(dto.getDataHora()));
         consulta.setDescricao(dto.getMotivo());
@@ -70,11 +70,10 @@ public class TelaConsultaController {
     @PostMapping("/realizar")
     public ResponseEntity<?> realizarConsulta(@RequestBody RealizarConsultaDTO dto) {
         Medico medico = medicoRepository.findByNome(dto.getNomeMedico());
-        Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
+        if (medico == null) throw new RecursoNaoEncontradoException("Médico não encontrado.");
 
-        if (medico == null || paciente == null) {
-            return ResponseEntity.badRequest().body("Médico ou paciente não encontrado.");
-        }
+        Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
+        if (paciente == null) throw new RecursoNaoEncontradoException("Paciente não encontrado.");
 
         // Busca consulta agendada para esse médico, paciente e data
         Consulta consulta = consultaRepository.findAll().stream()

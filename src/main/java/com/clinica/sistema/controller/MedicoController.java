@@ -26,25 +26,15 @@ public class MedicoController {
     // POST /medicos
     @PostMapping
     public ResponseEntity<String> cadastrarMedico(@RequestBody Medico medico) {
-        boolean cadastrado = medicoService.cadastrarMedico(medico);
-
-        if (cadastrado) {
-            return ResponseEntity.ok("Médico cadastrado com sucesso!");
-        } else {
-            return ResponseEntity.badRequest().body("Já existe um médico com esse nome.");
-        }
+        medicoService.cadastrarMedico(medico);
+        return ResponseEntity.ok("Médico cadastrado com sucesso!");
     }
 
     // PUT /medicos/{id}
     @PutMapping("/{id}")
     public ResponseEntity<String> atualizarMedico(@PathVariable Long id, @RequestBody Medico medicoAtualizado) {
-        boolean atualizado = medicoService.alterarDados(id, medicoAtualizado);
-
-        if (atualizado) {
-            return ResponseEntity.ok("Médico atualizado com sucesso.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        medicoService.alterarDados(id, medicoAtualizado);
+        return ResponseEntity.ok("Médico atualizado com sucesso.");
     }
     
     @GetMapping

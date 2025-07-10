@@ -1,5 +1,6 @@
 package com.clinica.sistema.service;
 
+import com.clinica.sistema.exception.ConsultaDuplicadaException;
 import com.clinica.sistema.model.Consulta;
 import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.model.Paciente;
@@ -34,7 +35,7 @@ public class ConsultaService {
                         && c.getStatus() == Consulta.StatusConsulta.AGENDADA);
 
         if (jaAgendado) {
-            throw new IllegalStateException("Paciente já possui consulta com este médico nessa data.");
+            throw new ConsultaDuplicadaException("Paciente já possui consulta com este médico nessa data.");
         }
 
         // Conta consultas ativas no dia

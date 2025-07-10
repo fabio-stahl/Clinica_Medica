@@ -16,11 +16,7 @@ public class PacienteController {
 
     @PostMapping
     public ResponseEntity<String> cadastrarPaciente(@RequestBody Paciente paciente) {
-        boolean cadastrado = pacienteService.cadastrarPaciente(paciente);
-        if (cadastrado) {
-            return ResponseEntity.ok("Paciente cadastrado com sucesso!");
-        } else {
-            return ResponseEntity.badRequest().body("Já existe um paciente com esse nome.");
-        }
+        pacienteService.cadastrarPaciente(paciente);
+        return ResponseEntity.ok("Paciente cadastrado com sucesso!");
     }
 }

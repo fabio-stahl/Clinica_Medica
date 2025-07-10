@@ -17,20 +17,12 @@ public class LoginController {
     @PostMapping("/paciente")
     public ResponseEntity<?> loginPaciente(@RequestBody Paciente login) {
         Paciente paciente = (Paciente) loginService.autenticar(login.getNome(), login.getSenha());
-        if (paciente != null) {
-            return ResponseEntity.ok(paciente);
-        } else {
-            return ResponseEntity.status(401).body("Login inválido");
-        }
+        return ResponseEntity.ok(paciente);
     }
 
     @PostMapping("/medico")
     public ResponseEntity<?> loginMedico(@RequestBody Medico login) {
         Medico medico = (Medico) loginService.autenticar(login.getNome(), login.getSenha());
-        if (medico != null) {
-            return ResponseEntity.ok(medico);
-        } else {
-            return ResponseEntity.status(401).body("Login inválido");
-        }
+        return ResponseEntity.ok(medico);
     }
 }
