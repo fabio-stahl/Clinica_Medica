@@ -6,31 +6,113 @@
   <link rel="stylesheet" href="paciente.css" />
 </head>
 <body>
-  <section class="dados-paciente">
-    <h1>Bem-vindo, <span id="nomePaciente">Paciente</span></h1>
-    <p><strong>Idade:</strong> <span id="idadePaciente">--</span></p>
-    <p><strong>Plano de Saúde:</strong> <span id="planoPaciente">--</span></p>
-  </section>
+<section class="dados-paciente">
+  <h1>Bem-vindo, <span id="nomePaciente">Paciente</span></h1>
+  <p><strong>Idade:</strong> <span id="idadePaciente">--</span></p>
+  <p><strong>Plano de Saúde:</strong> <span id="planoPaciente">--</span></p>
+</section>
 
-  <section class="menu-botoes">
-    <h2>Menu</h2>
-    <div class="botoes-container">
-      <button onclick="window.location.href='buscar_medicos.html'">Buscar Médicos</button>
-      <button onclick="window.location.href='agendar_consulta.html'">Agendar Consulta</button>
-      <button onclick="window.location.href='cancelar_consulta.html'">Cancelar Consulta</button>
-      <button onclick="window.location.href='index.html'">Voltar</button>
-    </div>
-  </section>
+<section class="menu-botoes">
+  <h2>Menu</h2>
+  <div class="botoes-container">
+    <button onclick="window.location.href='buscar_medicos.html'">Buscar Médicos</button>
+    <button onclick="window.location.href='agendar_consulta.html'">Agendar Consulta</button>
+    <button onclick="window.location.href='cancelar_consulta.html'">Cancelar Consulta</button>
+    <button onclick="window.location.href='index.html'">Voltar</button>
+  </div>
+</section>
 
-  <script>
-document.addEventListener("DOMContentLoaded", function() {
+<!-- Modal de Avaliação -->
+<div id="modal-avaliacao" style="display:none; position:fixed; top:30%; left:30%; background:white; padding:20px; border:1px solid gray; z-index:1000;">
+  <h3>Avalie sua consulta com o Dr. <span id="medico-nome"></span></h3>
+  <label for="nota">Nota (1 a 5):</label>
+  <input type="number" id="nota" min="1" max="5"><br><br>
+  <label for="comentario">Comentário:</label><br>
+  <textarea id="comentario" rows="4" cols="40"></textarea><br><br>
+  <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
+  <button onclick="fecharModal()">Cancelar</button>
+</div>
+
+<script>
+  // Preenche dados do paciente na tela
+  document.addEventListener("DOMContentLoaded", function() {
     const paciente = JSON.parse(localStorage.getItem("paciente"));
     if (paciente) {
-        document.getElementById("nomePaciente").textContent = paciente.nome;
-        document.getElementById("idadePaciente").textContent = paciente.idade;
-        document.getElementById("planoPaciente").textContent = paciente.planoDeSaude;
+      document.getElementById("nomePaciente").textContent = paciente.nome;
+      document.getElementById("idadePaciente").textContent = paciente.idade;
+      document.getElementById("planoPaciente").textContent = paciente.planoDeSaude;
+      localStorage.setItem("pacienteId", paciente.id); // salva pacienteId para uso futuro
     }
-});
+  });
+
+  // Função para mostrar o modal e preencher nome do médico
+  function mostrarModalAvaliacao(consulta) {
+    document.getElementById("modal-avaliacao").style.display = "block";
+    document.getElementById("medico-nome").innerText = consulta.medico.nome;
+    localStorage.setItem("consultaParaAvaliarId", consulta.id);
+    localStorage.setItem("medicoId", consulta.medico.id);
+  }
+
+  // Função para fechar modal
+  function fecharModal() {
+    document.getElementById("modal-avaliacao").style.display = "none";
+    // opcional: limpar inputs
+    document.getElementById("nota").value = "";
+    document.getElementById("comentario").value = "";
+  }
+
+  // Função para enviar avaliação
+  function enviarAvaliacao() {
+    const nota = document.getElementById("nota").value;
+    const comentario = document.getElementById("comentario").value;
+    const consultaId = localStorage.getItem("consultaParaAvaliarId");
+    const pacienteId = localStorage.getItem("pacienteId");
+    const medicoId = localStorage.getItem("medicoId");
+
+    if (!nota || nota < 1 || nota > 5) {
+      alert("Por favor, informe uma nota entre 1 e 5.");
+      return;
+    }
+
+    fetch("/avaliacao/avaliar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        consultaId,
+        medicoId,
+        pacienteId,
+        nota,
+        mensagem: comentario
+      })
+    }).then(response => {
+      if (response.ok) {
+        alert("Avaliação enviada!");
+        fecharModal();
+        // Aqui você pode também atualizar a lista ou buscar próximas consultas não avaliadas se quiser
+      } else {
+        alert("Erro ao enviar avaliação.");
+      }
+    }).catch(() => {
+      alert("Erro de rede ao enviar avaliação.");
+    });
+  }
+
+  // Ao carregar a página, busca consultas não avaliadas e mostra modal da primeira
+  window.onload = function () {
+    const pacienteId = localStorage.getItem("pacienteId");
+    if (!pacienteId) return; // só tenta se pacienteId existir
+
+    fetch(`/consulta/consultas/nao-avaliadas/${pacienteId}`)
+      .then(res => res.json())
+      .then(consultas => {
+        if (consultas.length > 0) {
+          mostrarModalAvaliacao(consultas[0]);
+        }
+      })
+      .catch(err => {
+        console.error("Erro ao buscar consultas não avaliadas:", err);
+      });
+  };
 </script>
 </body>
 </html>

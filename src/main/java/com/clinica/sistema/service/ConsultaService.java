@@ -115,4 +115,10 @@ public class ConsultaService {
                 .filter(c -> c.getMedico().equals(medico))
                 .toList();
     }
+    public boolean foiAvaliada(Consulta consulta) {
+        return consulta.getMedico().getAvaliacoes().stream()
+                .anyMatch(a -> a.getPaciente().equals(consulta.getPaciente())
+                        && a.getMedico().equals(consulta.getMedico()));
+    }
+
 }

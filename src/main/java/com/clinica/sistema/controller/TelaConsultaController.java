@@ -6,11 +6,14 @@ import com.clinica.sistema.model.Paciente;
 import com.clinica.sistema.repository.MedicoRepository;
 import com.clinica.sistema.repository.PacienteRepository;
 import com.clinica.sistema.repository.ConsultaRepository;
+import com.clinica.sistema.service.ConsultaService;
+import com.clinica.sistema.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,6 +26,10 @@ public class TelaConsultaController {
     private PacienteRepository pacienteRepository;
     @Autowired
     private MedicoRepository medicoRepository;
+    @Autowired
+    private PacienteService pacienteService;
+    @Autowired
+    private ConsultaService consultaService;
 
     @PostMapping("/agendar")
     public ResponseEntity<String> agendarConsulta(@RequestBody AgendamentoDTO dto) {
@@ -117,11 +124,29 @@ public class TelaConsultaController {
 
     // Adicione este método utilitário no controller ou service
     private double calcularValorConsulta(Medico medico) {
-        return switch (medico.getEspecialidade().toLowerCase()) {
-            case "cardiologia" -> 300.0;
-            case "pediatria" -> 200.0;
-            case "ortopedia" -> 250.0;
-            default -> 180.0;
+        return switch (medico.getEspecialidade()) {
+            case CARDIOLOGIA -> 300.0;
+            case PEDIATRIA, GINECOLOGIA -> 200.0;
+            case ORTOPEDIA, GERIATRIA -> 250.0;
+            case UROLOGIA -> 400.0;
+            case NEUROLOGIA -> 500.0;
+            case PSIQUIATRIA -> 600.0;
+            case DERMATOLOGIA -> 150.0;
+            case OFTALMOLOGIA -> 270.0;
+            case ENDOCRINOLOGIA -> 320.0;
+            case GASTROENTEROLOGIA -> 420.0;
         };
     }
+    @GetMapping("/consultas/nao-avaliadas/{pacienteId}")
+    public ResponseEntity<List<Consulta>> consultasNaoAvaliadas(@PathVariable Long pacienteId) {
+        Paciente paciente = pacienteService.buscarPorId(pacienteId);
+
+        List<Consulta> realizadas = consultaService.listarPorPaciente(paciente).stream()
+                .filter(c -> c.getStatus() == Consulta.StatusConsulta.REALIZADA)
+                .filter(c -> !consultaService.foiAvaliada(c)) // Novo método
+                .toList();
+
+        return ResponseEntity.ok(realizadas);
+    }
+
 }
