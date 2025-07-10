@@ -35,6 +35,7 @@ public class MedicoService {
         return false;
     }
 
+
     public Medico buscarPorId(Long medicoId) {
         return (Medico) medicoRepository.findById(medicoId).orElse(null);
     }

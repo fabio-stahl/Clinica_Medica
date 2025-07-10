@@ -6,6 +6,7 @@ import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.model.Paciente;
 import com.clinica.sistema.repository.AvaliacaoRepository;
 import com.clinica.sistema.repository.ConsultaRepository;
+import com.clinica.sistema.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,16 @@ import org.springframework.stereotype.Service;
 public class AvaliacaoService {
     @Autowired
     private ConsultaRepository consultaRepository;
+    @Autowired
     private AvaliacaoRepository avaliacaoRepository;
+    @Autowired
+    private MedicoRepository medicoRepository;
 
     public void avaliarConsulta(String mensagem, Medico medico, Paciente paciente, int nota){
         Avaliacao avaliacao = new Avaliacao(paciente, medico, nota, mensagem);
         medico.getAvaliacoes().add(avaliacao);
         avaliacaoRepository.save(avaliacao);
+        medicoRepository.save(medico);
 
     }
 
