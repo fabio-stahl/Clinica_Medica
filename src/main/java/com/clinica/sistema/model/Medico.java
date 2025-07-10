@@ -44,5 +44,6 @@ public class Medico extends Pessoa {
         this.planoDeSaude = planoDeSaude;
     }
 
+
     // setters, equals/hashCode, etc...
 }

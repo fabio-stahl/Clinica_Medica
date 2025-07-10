@@ -22,5 +22,12 @@ public abstract class Pessoa {
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
     public void setNome(String nome) { this.nome = nome; }
+
+    public void setId(long l) {
+        this.id = id;
+    }
+
+
+
 }
 

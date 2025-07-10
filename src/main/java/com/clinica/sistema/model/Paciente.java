@@ -25,5 +25,8 @@ public class Paciente extends Pessoa {
     public boolean temPlano() {
         return !planoDeSaude.equalsIgnoreCase("não tenho");
     }
+    public void setPlanoDeSaude(String campo) {
+        this.planoDeSaude=planoDeSaude;
+    }
 
 }
