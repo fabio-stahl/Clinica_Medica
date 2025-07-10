@@ -1,21 +1,28 @@
 package com.clinica.sistema.controller;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.clinica.sistema.exception.RecursoNaoEncontradoException;
 import com.clinica.sistema.model.Consulta;
 import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.model.Paciente;
+import com.clinica.sistema.repository.ConsultaRepository;
 import com.clinica.sistema.repository.MedicoRepository;
 import com.clinica.sistema.repository.PacienteRepository;
-import com.clinica.sistema.repository.ConsultaRepository;
 import com.clinica.sistema.service.ConsultaService;
 import com.clinica.sistema.service.PacienteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/consultas")
@@ -69,33 +76,18 @@ public class TelaConsultaController {
 
     @PostMapping("/realizar")
     public ResponseEntity<?> realizarConsulta(@RequestBody RealizarConsultaDTO dto) {
-        Medico medico = medicoRepository.findByNome(dto.getNomeMedico());
-        if (medico == null) throw new RecursoNaoEncontradoException("Médico não encontrado.");
-
-        Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
-        if (paciente == null) throw new RecursoNaoEncontradoException("Paciente não encontrado.");
-
-        // Busca consulta agendada para esse médico, paciente e data
-        Consulta consulta = consultaRepository.findAll().stream()
-            .filter(c -> c.getMedico().equals(medico)
-                    && c.getPaciente().equals(paciente)
-                    && c.getData().toString().equals(dto.getDataHora())
-                    && c.getStatus() == Consulta.StatusConsulta.AGENDADA)
-            .findFirst()
-            .orElse(null);
-
+        Consulta consulta = consultaRepository.findById(dto.getIdConsulta()).orElse(null);
         if (consulta == null) {
             return ResponseEntity.badRequest().body("Consulta não encontrada.");
         }
-
         consulta.setDescricao(dto.getDescricao());
         consulta.setStatus(Consulta.StatusConsulta.REALIZADA);
         consultaRepository.save(consulta);
 
-        // Calcule valor se necessário (exemplo: se paciente não tem plano)
+        Paciente paciente = consulta.getPaciente();
         double valorConsulta = 0.0;
         if (paciente.getPlanoDeSaude() == null || paciente.getPlanoDeSaude().isBlank() || paciente.getPlanoDeSaude().equalsIgnoreCase("não tenho")) {
-            valorConsulta = calcularValorConsulta(medico);
+            valorConsulta = calcularValorConsulta(consulta.getMedico());
         }
 
         return ResponseEntity.ok(Map.of(
@@ -104,19 +96,13 @@ public class TelaConsultaController {
         ));
     }
 
-    // DTO para receber dados do frontend
+    // Atualize o DTO:
     public static class RealizarConsultaDTO {
-        private String nomeMedico;
-        private String nomePaciente;
-        private String dataHora;
+        private Long idConsulta;
         private String descricao;
         // getters e setters
-        public String getNomeMedico() { return nomeMedico; }
-        public void setNomeMedico(String nomeMedico) { this.nomeMedico = nomeMedico; }
-        public String getNomePaciente() { return nomePaciente; }
-        public void setNomePaciente(String nomePaciente) { this.nomePaciente = nomePaciente; }
-        public String getDataHora() { return dataHora; }
-        public void setDataHora(String dataHora) { this.dataHora = dataHora; }
+        public Long getIdConsulta() { return idConsulta; }
+        public void setIdConsulta(Long idConsulta) { this.idConsulta = idConsulta; }
         public String getDescricao() { return descricao; }
         public void setDescricao(String descricao) { this.descricao = descricao; }
     }
@@ -146,6 +132,15 @@ public class TelaConsultaController {
                 .toList();
 
         return ResponseEntity.ok(realizadas);
+    }
+    @GetMapping("/por-medico")
+    public List<Consulta> listarConsultasPorMedico(@RequestParam String nomeMedico) {
+        Medico medico = medicoRepository.findByNome(nomeMedico);
+        if (medico == null) return List.of();
+        return consultaRepository.findAll().stream()
+                .filter(c -> c.getMedico().equals(medico))
+                .filter(c -> c.getStatus() == Consulta.StatusConsulta.AGENDADA)
+                .toList();
     }
 
 }

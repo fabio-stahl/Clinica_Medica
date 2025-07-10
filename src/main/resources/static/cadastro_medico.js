@@ -26,7 +26,7 @@ document.getElementById('formCadastroMedico').addEventListener('submit', async f
 
         if (response.ok) {
             alert('Médico cadastrado com sucesso!');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         } else {
             const msg = await response.text();
             alert('Erro ao cadastrar médico: ' + msg);

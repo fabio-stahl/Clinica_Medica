@@ -8,12 +8,9 @@
 <body>
   <section class="form-container">
     <h1>Realizar Consulta</h1>
-    <form id="formRealizar">
-      <input type="text" id="nomePaciente" placeholder="Nome do Paciente" required />
-      <input type="datetime-local" id="dataHora" required />
-      <textarea id="descricao" placeholder="Descrição do atendimento" rows="4"></textarea>
-      <button type="submit">Registrar Consulta</button>
-    </form>
+    <section id="lista-consultas">
+      <!-- As consultas agendadas aparecerão aqui -->
+    </section>
     <button onclick="window.location.href='medico.html'">Voltar</button>
   </section>
   <script src="realizar_consulta.js"></script>

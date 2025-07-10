@@ -20,5 +20,16 @@
         <button onclick="window.location.href='index.html'">Voltar</button>
     </div>
   </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const medico = JSON.parse(localStorage.getItem("medico"));
+      if (medico) {
+        document.getElementById("nomeMedico").textContent = medico.nome;
+        document.getElementById("especialidadeMedico").textContent = medico.especialidade;
+        document.getElementById("planoMedico").textContent = medico.planoDeSaude;
+      }
+    });
+  </script>
 </body>
 </html>

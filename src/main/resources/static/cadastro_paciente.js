@@ -25,7 +25,7 @@ document.getElementById('formCadastroPaciente').addEventListener('submit', async
 
         if (response.ok) {
             alert('Paciente cadastrado com sucesso!');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         } else {
             const msg = await response.text();
             alert('Erro ao cadastrar paciente: ' + msg);

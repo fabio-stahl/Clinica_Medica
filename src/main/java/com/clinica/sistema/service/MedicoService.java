@@ -1,14 +1,16 @@
 package com.clinica.sistema.service;
 
-import com.clinica.sistema.exception.MedicoExistenteException;
-import com.clinica.sistema.exception.MedicoNaoEncontradoException;
-import com.clinica.sistema.model.Medico;
-import com.clinica.sistema.repository.MedicoRepository;
-
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.clinica.sistema.exception.MedicoExistenteException;
+import com.clinica.sistema.exception.MedicoNaoEncontradoException;
+import com.clinica.sistema.model.Especialidade;
+import com.clinica.sistema.model.Medico;
+import com.clinica.sistema.repository.MedicoRepository;
 
 @Service
 public class MedicoService {
@@ -44,9 +46,28 @@ public class MedicoService {
         } else if (nome != null && !nome.isEmpty() && (especialidade == null || especialidade.isEmpty())) {
             return medicoRepository.findByNomeContainingIgnoreCase(nome);
         } else if ((nome == null || nome.isEmpty()) && especialidade != null && !especialidade.isEmpty()) {
-            return medicoRepository.findByEspecialidadeContainingIgnoreCase(especialidade);
+            Especialidade especialidadeEnum = Arrays.stream(Especialidade.values())
+                    .filter(e -> e.getDescricao().equalsIgnoreCase(especialidade))
+                    .findFirst()
+                    .orElse(null);
+
+            if (especialidadeEnum != null) {
+                return medicoRepository.findByEspecialidade(especialidadeEnum);
+            } else {
+                // Se não encontrou o enum, retorna lista vazia
+                return List.of();
+            }
         } else {
-            return medicoRepository.findByNomeContainingIgnoreCaseAndEspecialidadeContainingIgnoreCase(nome, especialidade);
+            Especialidade especialidadeEnum = Arrays.stream(Especialidade.values())
+                .filter(e -> e.getDescricao().equalsIgnoreCase(especialidade))
+                .findFirst()
+                .orElse(null);
+
+            if (especialidadeEnum != null) {
+                return medicoRepository.findByNomeContainingIgnoreCaseAndEspecialidade(nome, especialidadeEnum);
+            } else {
+                return List.of();
+            }
         }
     }
 }

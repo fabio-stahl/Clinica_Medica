@@ -1,8 +1,11 @@
 package com.clinica.sistema.model;
 
-import com.clinica.sistema.model.Medico;
-import com.clinica.sistema.model.Paciente;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "avaliacao_table")
@@ -35,4 +38,6 @@ public class Avaliacao {
 
     public Paciente getPaciente() { return paciente; }
     public Medico getMedico() { return medico; }
+
+    public Long getId() {return this.id;}
 }

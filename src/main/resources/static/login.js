@@ -27,6 +27,17 @@ document.getElementById("pacienteLogin").addEventListener("submit", async functi
     }
 });
 
+// Import AvaliacaoMedico pop-up script and check for pending avaliações after login redirect
+window.addEventListener('load', () => {
+    if (window.location.pathname.endsWith('paciente.html')) {
+        import('./avaliacao_popup.js').then(module => {
+            module.checkAndShowAvaliacao();
+        }).catch(err => {
+            console.error('Erro ao carregar avaliacao_popup.js:', err);
+        });
+    }
+});
+
 // Login do médico
 document.getElementById("medicoLogin").addEventListener("submit", async function(e) {
     e.preventDefault();
