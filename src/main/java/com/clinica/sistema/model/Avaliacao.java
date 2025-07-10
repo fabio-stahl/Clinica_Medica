@@ -35,4 +35,8 @@ public class Avaliacao {
 
     public Paciente getPaciente() { return paciente; }
     public Medico getMedico() { return medico; }
+
+    public Long getId() {
+        return id;
+    }
 }
