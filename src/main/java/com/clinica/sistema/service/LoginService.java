@@ -2,6 +2,7 @@ package com.clinica.sistema.service;
 
 //package clinica.service;
 
+import com.clinica.sistema.exception.AutenticacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +21,13 @@ public class LoginService {
     public Pessoa autenticar(String nome, String senha) {
         // Primeiro, tenta achar como médico
         Pessoa p = medicoRepository.findByNome(nome);
-        if (p != null && p.getSenha().equals(senha)) {
-            return p;
-        }
+        if (p != null && p.getSenha().equals(senha)) return p;
 
         // Se não achou ou a senha não bate, tenta como paciente
-        Pessoa pp = pacienteRepository.findByNome(nome);
-        if (pp != null && pp.getSenha().equals(senha)) {
-            return pp;
-        }
+        p = pacienteRepository.findByNome(nome);
+        if (p != null && p.getSenha().equals(senha)) return p;
 
-        // Não encontrado ou senha incorreta
-        return null;
+        throw new AutenticacaoException("Nome ou senha inválidos.");
     }
 
 

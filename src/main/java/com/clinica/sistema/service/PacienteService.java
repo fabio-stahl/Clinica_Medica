@@ -1,5 +1,7 @@
 package com.clinica.sistema.service;
 
+import com.clinica.sistema.exception.PacienteExistenteException;
+import com.clinica.sistema.exception.PacienteNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,11 @@ public class PacienteService {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    public boolean cadastrarPaciente(Paciente paciente){
+    public void cadastrarPaciente(Paciente paciente){
         if (pacienteRepository.existsByNome(paciente.getNome())) {
-            return false;
+            throw new PacienteExistenteException("Já existe um paciente com esse nome.");
         }
         pacienteRepository.save(paciente);
-        return true;
     }
 
     public List<Medico> pesquisarMedicos(String nome, String especialidade, Paciente paciente) {
@@ -47,8 +48,8 @@ public class PacienteService {
         return medicosEncontrados;
     }
 
-
     public Paciente buscarPorId(Long pacienteId) {
-        return pacienteRepository.findById(pacienteId).orElse(null);
+        return pacienteRepository.findById(pacienteId)
+                .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente com ID " + pacienteId + " não encontrado."));
     }
 }

@@ -1,5 +1,7 @@
 package com.clinica.sistema.service;
 
+import com.clinica.sistema.exception.MedicoExistenteException;
+import com.clinica.sistema.exception.MedicoNaoEncontradoException;
 import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.repository.MedicoRepository;
 
@@ -14,25 +16,21 @@ public class MedicoService {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    public boolean cadastrarMedico(Medico medico) {
+    public void cadastrarMedico(Medico medico) {
         if (medicoRepository.existsByNome(medico.getNome())) {
-            return false;
+            throw new MedicoExistenteException("Já existe um médico com esse nome");
         }
         medicoRepository.save(medico);
-        return true;
     }
 
-    public boolean alterarDados(Long id, Medico medicoAtualizado) {
-        if (medicoRepository.existsById(id)) {
-            Medico medico = medicoRepository.findById(id).get();
-            medico.setNome(medicoAtualizado.getNome());
-            medico.setEspecialidade(medicoAtualizado.getEspecialidade());
-            medico.setPlanoDeSaude(medicoAtualizado.getPlanoDeSaude());
-            // Outros campos, se houver
-            medicoRepository.save(medico);
-            return true;
-        }
-        return false;
+    public void alterarDados(Long id, Medico medicoAtualizado) {
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(() -> new MedicoNaoEncontradoException("Médico com ID " + id + " não encontrado."));
+
+        medico.setNome(medicoAtualizado.getNome());
+        medico.setEspecialidade(medicoAtualizado.getEspecialidade());
+        medico.setPlanoDeSaude(medicoAtualizado.getPlanoDeSaude());
+        medicoRepository.save(medico);
     }
 
     public Medico buscarPorId(Long medicoId) {

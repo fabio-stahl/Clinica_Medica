@@ -1,5 +1,7 @@
 package com.clinica.sistema.controller;
 
+import com.clinica.sistema.exception.RecursoNaoEncontradoException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.clinica.sistema.model.Consulta;
@@ -30,33 +32,29 @@ public class TelaPacienteController {
     public List<Consulta> listarConsultasDoPaciente(@RequestParam Long pacienteId) {
         Paciente paciente = pacienteService.buscarPorId(pacienteId);
         if (paciente == null) {
-            throw new RuntimeException("Paciente não encontrado");
+            throw new RecursoNaoEncontradoException("Paciente não encontrado.");
         }
         return consultaService.listarPorPaciente(paciente);
     }
 
     // Exemplo básico de agendar consulta via POST
+
     @PostMapping("/agendar")
-    public String agendarConsulta(
+    public ResponseEntity<String> agendarConsulta(
             @RequestParam Long medicoId,
             @RequestParam Long pacienteId,
             @RequestParam String data) {
-        // converte data String para LocalDate
-        LocalDateTime localDate = LocalDateTime.parse(data);
 
+        LocalDateTime localDate = LocalDateTime.parse(data);
         Medico medico = medicoService.buscarPorId(medicoId);
         Paciente paciente = pacienteService.buscarPorId(pacienteId);
 
         if (medico == null || paciente == null) {
-            return "Médico ou Paciente não encontrado.";
+            throw new RecursoNaoEncontradoException("Médico ou paciente não encontrado.");
         }
 
-        try {
-            consultaService.agendarConsulta(medico, paciente, localDate);
-            return "Consulta agendada com sucesso.";
-        } catch (Exception e) {
-            return "Erro ao agendar consulta: " + e.getMessage();
-        }
+        consultaService.agendarConsulta(medico, paciente, localDate);
+        return ResponseEntity.ok("Consulta agendada com sucesso.");
     }
 
     @GetMapping("/consultas")
