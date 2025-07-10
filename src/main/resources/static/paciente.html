@@ -23,46 +23,48 @@
 </section>
 
 <!-- Modal de Avaliação -->
-<div id="modal-avaliacao" style="display:none; position:fixed; top:30%; left:30%; background:white; padding:20px; border:1px solid gray; z-index:1000;">
-  <h3>Avalie sua consulta com o Dr. <span id="medico-nome"></span></h3>
-  <label for="nota">Nota (1 a 5):</label>
-  <input type="number" id="nota" min="1" max="5"><br><br>
-  <label for="comentario">Comentário:</label><br>
-  <textarea id="comentario" rows="4" cols="40"></textarea><br><br>
-  <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
-  <button onclick="fecharModal()">Cancelar</button>
+<div id="modal-avaliacao">
+  <div class="modal-content">
+    <h3>Avalie sua consulta com o Dr. <span id="medico-nome"></span></h3>
+    <label for="nota">Nota (1 a 5):</label>
+    <input type="number" id="nota" min="1" max="5" /><br /><br />
+    <label for="comentario">Comentário:</label><br />
+    <textarea id="comentario" rows="4" cols="40"></textarea><br /><br />
+    <button id="btnEnviar">Enviar Avaliação</button>
+    <button id="btnCancelar">Cancelar</button>
+  </div>
 </div>
 
 <script>
-  // Preenche dados do paciente na tela
-  document.addEventListener("DOMContentLoaded", function() {
+  // Preenche dados do paciente na tela ao carregar
+  document.addEventListener("DOMContentLoaded", () => {
     const paciente = JSON.parse(localStorage.getItem("paciente"));
     if (paciente) {
       document.getElementById("nomePaciente").textContent = paciente.nome;
       document.getElementById("idadePaciente").textContent = paciente.idade;
       document.getElementById("planoPaciente").textContent = paciente.planoDeSaude;
-      localStorage.setItem("pacienteId", paciente.id); // salva pacienteId para uso futuro
+      localStorage.setItem("pacienteId", paciente.id);
     }
   });
 
-  // Função para mostrar o modal e preencher nome do médico
+  // Função para abrir o modal de avaliação e preencher dados
   function mostrarModalAvaliacao(consulta) {
-    document.getElementById("modal-avaliacao").style.display = "block";
+    document.getElementById("modal-avaliacao").style.display = "flex";
     document.getElementById("medico-nome").innerText = consulta.medico.nome;
     localStorage.setItem("consultaParaAvaliarId", consulta.id);
     localStorage.setItem("medicoId", consulta.medico.id);
+    // Limpa campos
+    document.getElementById("nota").value = "";
+    document.getElementById("comentario").value = "";
   }
 
   // Função para fechar modal
   function fecharModal() {
     document.getElementById("modal-avaliacao").style.display = "none";
-    // opcional: limpar inputs
-    document.getElementById("nota").value = "";
-    document.getElementById("comentario").value = "";
   }
 
-  // Função para enviar avaliação
-  function enviarAvaliacao() {
+  // Envia avaliação via fetch POST para backend
+  async function enviarAvaliacao() {
     const nota = document.getElementById("nota").value;
     const comentario = document.getElementById("comentario").value;
     const consultaId = localStorage.getItem("consultaParaAvaliarId");
@@ -74,33 +76,39 @@
       return;
     }
 
-    fetch("/avaliacao/avaliar", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        consultaId,
-        medicoId,
-        pacienteId,
-        nota,
-        mensagem: comentario
-      })
-    }).then(response => {
+    try {
+      const response = await fetch("/avaliacao/avaliar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          consultaId,
+          medicoId,
+          pacienteId,
+          nota,
+          mensagem: comentario
+        })
+      });
+
       if (response.ok) {
         alert("Avaliação enviada!");
         fecharModal();
-        // Aqui você pode também atualizar a lista ou buscar próximas consultas não avaliadas se quiser
+        // Você pode atualizar a lista de consultas aqui se precisar
       } else {
         alert("Erro ao enviar avaliação.");
       }
-    }).catch(() => {
+    } catch (error) {
       alert("Erro de rede ao enviar avaliação.");
-    });
+    }
   }
 
-  // Ao carregar a página, busca consultas não avaliadas e mostra modal da primeira
-  window.onload = function () {
+  // Evento para botões
+  document.getElementById("btnEnviar").addEventListener("click", enviarAvaliacao);
+  document.getElementById("btnCancelar").addEventListener("click", fecharModal);
+
+  // Ao carregar a página, busca consultas não avaliadas e abre modal para a primeira
+  window.onload = () => {
     const pacienteId = localStorage.getItem("pacienteId");
-    if (!pacienteId) return; // só tenta se pacienteId existir
+    if (!pacienteId) return;
 
     fetch(`/consulta/consultas/nao-avaliadas/${pacienteId}`)
       .then(res => res.json())
