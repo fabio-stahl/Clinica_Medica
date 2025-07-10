@@ -102,7 +102,7 @@
     const pacienteId = localStorage.getItem("pacienteId");
     if (!pacienteId) return; // só tenta se pacienteId existir
 
-    fetch(`/consulta/consultas/nao-avaliadas/${pacienteId}`)
+    fetch(`/consultas/consultas/nao-avaliadas/${pacienteId}`)
       .then(res => res.json())
       .then(consultas => {
         if (consultas.length > 0) {
