@@ -33,6 +33,7 @@ public class MedicoService {
         medicoRepository.save(medico);
     }
 
+
     public Medico buscarPorId(Long medicoId) {
         return (Medico) medicoRepository.findById(medicoId).orElse(null);
     }

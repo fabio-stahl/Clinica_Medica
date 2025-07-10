@@ -59,7 +59,7 @@ public class Consulta {
         this.descricao = descricao;
     }
 
-    public Object getPaciente() {
+    public Paciente getPaciente() {
         return paciente;
     }
 
@@ -69,6 +69,14 @@ public class Consulta {
 
     public void setStatus(StatusConsulta statusConsulta) {
         this.status = statusConsulta;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Object getId() {
+        return id;
     }
 
     public enum StatusConsulta {
