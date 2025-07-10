@@ -1,6 +1,6 @@
 package com.clinica.sitema.DTO;
 
-public class RealizarConsultaDTO {
+public class RealizarConsultaDTo {
     private Long consultaId;
     private String descricao;
 

@@ -113,4 +113,9 @@ public class ConsultaService {
                 .filter(c -> c.getMedico().equals(medico))
                 .toList();
     }
+    public Consulta buscarPorId(Long id) {
+        return consultas.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Consulta com ID " + id + " não encontrada."));
+    }
+
 }

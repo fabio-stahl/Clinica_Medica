@@ -1,6 +1,6 @@
 package com.clinica.sitema.DTO;
 
-public class CancelamentoConsultaDTO {
+public class CancelarConsultaDTO {
     private Long consultaId;
 
     public Long getConsultaId() { return consultaId; }

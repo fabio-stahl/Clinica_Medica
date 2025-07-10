@@ -1,6 +1,6 @@
 package com.clinica.sitema.DTO;
 
-public class MedicoDTO {
+public class MedicoDTo {
     private String nome;
     private String especialidade;
     private String planoDeSaude;
