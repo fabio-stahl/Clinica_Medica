@@ -1,8 +1,13 @@
-import com.clinica.sistema.model.Paciente;
-import com.clinica.sistema.model.Medico;
+package com.clinica.sistema.model;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "avaliacao_table")
