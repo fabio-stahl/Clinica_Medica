@@ -3,6 +3,7 @@ package com.clinica.sistema.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -16,8 +17,9 @@ import jakarta.persistence.Table;
 public class Medico extends Pessoa {
     private Especialidade especialidade;
     private String planoDeSaude;
+
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonIgnore
     private List<Avaliacao> avaliacoes = new ArrayList<>();
 
 

@@ -1,7 +1,6 @@
 package com.clinica.sistema.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +20,6 @@ public class Avaliacao {
     private Paciente paciente;
 
     @ManyToOne
-    @JsonBackReference                            // ← vincula com @JsonManagedReference em Medico
     private Medico medico;
 
     private int nota;
