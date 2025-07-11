@@ -29,6 +29,18 @@ public enum Especialidade {
         }
         throw new IllegalArgumentException("Especialidade inválida: " + campo);
     }
+    
+    @JsonCreator
+    public static Especialidade fromJson(String valor) {
+        for (Especialidade e : Especialidade.values()) {
+            if (e.name().equalsIgnoreCase(valor)
+                || e.getDescricao().equalsIgnoreCase(valor)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Especialidade inválida: " + valor);
+    }
+
 
 
     public String getDescricao() {

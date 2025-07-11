@@ -20,8 +20,7 @@ public class Avaliacao {
     @ManyToOne
     private Paciente paciente;
 
-    @ManyToOne
-    @JsonBackReference                            // ← vincula com @JsonManagedReference em Medico
+    @ManyToOne                           // ← vincula com @JsonManagedReference em Medico
     private Medico medico;
 
     private int nota;

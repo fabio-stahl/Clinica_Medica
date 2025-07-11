@@ -19,7 +19,6 @@ import com.clinica.sistema.model.Consulta;
 import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.model.Paciente;
 import com.clinica.sistema.repository.ConsultaRepository;
-import com.clinica.sistema.repository.ConsultaRepository;
 import com.clinica.sistema.repository.MedicoRepository;
 import com.clinica.sistema.repository.PacienteRepository;
 import com.clinica.sistema.service.ConsultaService;
