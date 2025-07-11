@@ -68,17 +68,6 @@ public class MedicoService {
                 // Se não encontrou o enum, retorna lista vazia
                 return List.of();
             }
-            Especialidade especialidadeEnum = Arrays.stream(Especialidade.values())
-                    .filter(e -> e.getDescricao().equalsIgnoreCase(especialidade))
-                    .findFirst()
-                    .orElse(null);
-
-            if (especialidadeEnum != null) {
-                return medicoRepository.findByEspecialidade(especialidadeEnum);
-            } else {
-                // Se não encontrou o enum, retorna lista vazia
-                return List.of();
-            }
         } else {
             Especialidade especialidadeEnum = Arrays.stream(Especialidade.values())
                 .filter(e -> e.getDescricao().equalsIgnoreCase(especialidade))

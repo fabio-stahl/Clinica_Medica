@@ -26,14 +26,11 @@ import com.clinica.sistema.service.MedicoService;
 @CrossOrigin(origins = "*")
 public class MedicoController {
 
-    private final MedicoRepository medicoRepository;
+    @Autowired
+    private MedicoRepository medicoRepository;
 
     @Autowired
     private MedicoService medicoService;
-
-    MedicoController(MedicoRepository medicoRepository) {
-        this.medicoRepository = medicoRepository;
-    }
 
     // POST /medicos
     @PostMapping
