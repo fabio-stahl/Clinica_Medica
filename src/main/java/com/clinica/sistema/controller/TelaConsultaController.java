@@ -143,4 +143,39 @@ public class TelaConsultaController {
                 .toList();
     }
 
+    @PostMapping("/cancelar")
+    public ResponseEntity<String> cancelarConsulta(@RequestBody CancelamentoDTO dto) {
+        Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
+        if (paciente == null) {
+            return ResponseEntity.badRequest().body("Paciente não encontrado.");
+        }
+
+        LocalDateTime dataHora;
+        try {
+            dataHora = LocalDateTime.parse(dto.getDataHora());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Formato de data/hora inválido.");
+        }
+
+        Consulta consulta = consultaRepository.findByPacienteAndData(paciente, dataHora);
+        if (consulta == null) {
+            return ResponseEntity.badRequest().body("Consulta não encontrada.");
+        }
+
+        consultaService.cancelarConsulta(consulta);
+        return ResponseEntity.ok("Consulta cancelada com sucesso!");
+    }
+
+    public static class CancelamentoDTO {
+        private String nomePaciente;
+        private String dataHora;
+
+        public String getNomePaciente() { return nomePaciente; }
+        public void setNomePaciente(String nomePaciente) { this.nomePaciente = nomePaciente; }
+
+        public String getDataHora() { return dataHora; }
+        public void setDataHora(String dataHora) { this.dataHora = dataHora; }
+    }
+
+
 }

@@ -56,7 +56,7 @@ public class MedicoController {
             medico.setEspecialidade(Especialidade.fromDescricao(medicoDTO.getEspecialidade()));  // converte usando o fromDescricao
             medico.setPlanoDeSaude(medicoDTO.getPlanoDeSaude());
 
-            medicoRepository.save(medico);
+            medicoRepository.save(medico);  
 
             return ResponseEntity.ok("Médico atualizado com sucesso.");
         } catch (IllegalArgumentException e) {
