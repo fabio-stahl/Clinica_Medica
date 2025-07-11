@@ -52,26 +52,30 @@ public class ImportacaoController {
                     switch (nomeArquivo) {
 
                         case "pacientes.csv" -> {
-                            if (campos.length < 4) continue; // Proteção contra erro de linha
+                            if (campos.length < 5) continue; // Atualizado para esperar 5 campos
                             Paciente paciente = new Paciente();
                             paciente.setId(Long.parseLong(campos[0]));
                             paciente.setNome(campos[1]);
-                            paciente.setIdade(Integer.parseInt(campos[2])); // ✅ Corrigido
+                            paciente.setIdade(Integer.parseInt(campos[2]));
                             paciente.setPlanoDeSaude(campos[3]);
+                            paciente.setSenha(campos[4]); // Importa a senha
                             pacienteRepository.save(paciente);
                             pacientesCache.put(paciente.getId(), paciente);
                         }
 
+
                         case "medicos.csv" -> {
-                            if (campos.length < 4) continue;
+                            if (campos.length < 5) continue; // Atualizado para esperar 5 campos
                             Medico medico = new Medico();
                             medico.setId(Long.parseLong(campos[0]));
                             medico.setNome(campos[1]);
                             medico.setEspecialidade(Especialidade.valueOfDescricao(campos[2]));
                             medico.setPlanoDeSaude(campos[3]);
+                            medico.setSenha(campos[4]); // Importa a senha
                             medicoRepository.save(medico);
                             medicosCache.put(medico.getId(), medico);
                         }
+
 
                         case "consultas.csv" -> {
                             if (campos.length < 6) continue;
