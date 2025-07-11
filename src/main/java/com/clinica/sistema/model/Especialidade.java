@@ -21,6 +21,16 @@ public enum Especialidade {
         this.descricao = descricao;
     }
 
+    public static Especialidade valueOfDescricao(String campo) {
+        for (Especialidade e : Especialidade.values()) {
+            if (e.getDescricao().equalsIgnoreCase(campo.trim())) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Especialidade inválida: " + campo);
+    }
+
+
     public String getDescricao() {
         return descricao;
     }

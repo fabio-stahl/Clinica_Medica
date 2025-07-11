@@ -64,12 +64,12 @@ public class MedicoController {
         }
     }
 
-    
+
     @GetMapping
     public List<Medico> listar(@RequestParam(required = false) String nome,
                                @RequestParam(required = false) String especialidade) {
         // Chama o método do service para buscar médicos
         return medicoService.buscarMedicos(nome, especialidade);
     }
-    
+
 }

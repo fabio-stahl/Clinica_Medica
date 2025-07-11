@@ -46,4 +46,28 @@ public class Avaliacao {
     public void setMedico(Medico medico)     { this.medico = medico; }
     public void setNota(int nota)            { this.nota = nota; }
     public void setComentario(String c)      { this.comentario = c; }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(long l) {
+        this.id = l;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
+
+    public void setNota(int i) {
+        this.nota = i;
+    }
+
+    public void setComentario(String campo) {
+        this.comentario =campo;
+    }
 }

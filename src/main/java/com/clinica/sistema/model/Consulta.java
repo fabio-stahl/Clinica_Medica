@@ -79,6 +79,10 @@ public class Consulta {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public enum StatusConsulta {
         AGENDADA, CANCELADA, REALIZADA
     }
