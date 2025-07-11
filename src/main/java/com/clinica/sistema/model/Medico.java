@@ -44,5 +44,10 @@ public class Medico extends Pessoa {
         this.planoDeSaude = planoDeSaude;
     }
 
+    public void setAvaliacoes(ArrayList<Object> objects) {
+        this.avaliacoes = avaliacoes;
+    }
+
+
     // setters, equals/hashCode, etc...
 }

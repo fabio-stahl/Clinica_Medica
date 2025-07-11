@@ -1,11 +1,16 @@
 package com.clinica.sistema.service;
 
 import com.clinica.sistema.exception.ConsultaDuplicadaException;
+import com.clinica.sistema.model.Avaliacao;
 import com.clinica.sistema.model.Consulta;
 import com.clinica.sistema.model.Medico;
 import com.clinica.sistema.model.Paciente;
+import com.clinica.sistema.repository.AvaliacaoRepository;
 import com.clinica.sistema.repository.ConsultaRepository;
 
+import com.clinica.sistema.repository.MedicoRepository;
+import com.clinica.sistema.repository.PacienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,7 +20,24 @@ import java.util.*;
 @Service
 public class ConsultaService {
 
+    @Autowired
+    private MedicoService medicoService;
+
+    @Autowired
+    private ExportacaoService exportacaoService;
+
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
+    @Autowired
     private final ConsultaRepository consultas;
+
+    @Autowired
+    private MedicoRepository medicoRepository;
+
+    @Autowired
+    private AvaliacaoRepository avaliacaoRepository;
+
     private final Map<Medico, Map<LocalDateTime, Queue<Paciente>>> listaEspera = new HashMap<>();
 
     public ConsultaService(ConsultaRepository consultas) {
@@ -78,6 +100,7 @@ public class ConsultaService {
         consulta.setDescricao(descricao);
         consulta.setStatus(Consulta.StatusConsulta.REALIZADA);
         consultas.save(consulta);
+        exportacaoService.salvarConsultaNoCSV(consulta);
 
         Paciente paciente = (Paciente) consulta.getPaciente();
 
@@ -120,6 +143,28 @@ public class ConsultaService {
         return consulta.getMedico().getAvaliacoes().stream()
                 .anyMatch(a -> a.getPaciente().equals(consulta.getPaciente())
                         && a.getMedico().equals(consulta.getMedico()));
+    }
+    public Avaliacao avaliarMedicoPorId(Long medicoId, Long pacienteId, int nota, String comentario) {
+        Medico medico = medicoRepository.findById(medicoId).orElse(null);
+        Paciente paciente = pacienteRepository.findById(pacienteId).orElse(null);
+
+        if (medico == null || paciente == null) {
+            throw new IllegalArgumentException("Médico ou paciente não encontrado.");
+        }
+
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setMedico(medico);
+        avaliacao.setPaciente(paciente);
+        avaliacao.setNota(nota);
+        avaliacao.setComentario(comentario);
+
+        Avaliacao salva = avaliacaoRepository.save(avaliacao);
+        exportacaoService.salvarAvaliacaoNoCSV(salva);
+        return salva;
+    }
+
+    private String limpar(String valor) {
+        return valor != null ? valor.replace(",", " ") : "";
     }
 
 }

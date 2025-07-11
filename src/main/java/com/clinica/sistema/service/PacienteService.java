@@ -23,11 +23,15 @@ public class PacienteService {
     @Autowired
     private MedicoRepository medicoRepository;
 
+    @Autowired
+    private ExportacaoService exportacaoService;
+
     public void cadastrarPaciente(Paciente paciente){
         if (pacienteRepository.existsByNome(paciente.getNome())) {
             throw new PacienteExistenteException("Já existe um paciente com esse nome.");
         }
         pacienteRepository.save(paciente);
+        exportacaoService.salvarPacienteNoCSV(paciente);
     }
 
     public List<Medico> pesquisarMedicos(String nome, String especialidade, Paciente paciente) {
