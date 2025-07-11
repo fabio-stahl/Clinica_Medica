@@ -1,5 +1,7 @@
 package com.clinica.sistema.model;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Especialidade {
     CARDIOLOGIA("Cardiologia"),
@@ -21,44 +23,46 @@ public enum Especialidade {
         this.descricao = descricao;
     }
 
+    // ----------------- usado no seu import CSV -----------------
     public static Especialidade valueOfDescricao(String campo) {
-        for (Especialidade e : Especialidade.values()) {
+        for (Especialidade e : values()) {
             if (e.getDescricao().equalsIgnoreCase(campo.trim())) {
                 return e;
             }
         }
         throw new IllegalArgumentException("Especialidade inválida: " + campo);
     }
-    
-    @JsonCreator
-    public static Especialidade fromJson(String valor) {
-        for (Especialidade e : Especialidade.values()) {
-            if (e.name().equalsIgnoreCase(valor)
-                || e.getDescricao().equalsIgnoreCase(valor)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Especialidade inválida: " + valor);
-    }
 
-
-
-    public String getDescricao() {
-        return descricao;
-    }
-
+    // ----------------- usado no seu controller de update -------------
     public boolean equalsIgnoreCase(String especialidade) {
         if (especialidade == null || descricao == null) return false;
         return descricao.equalsIgnoreCase(especialidade);
     }
 
-    @JsonCreator
+    // mantém aquele fromDescricao original (para seu PUT/update)
     public static Especialidade fromDescricao(String descricao) {
-        for (Especialidade e : Especialidade.values()) {
-            if (e.getDescricao().equalsIgnoreCase(descricao)) {
+        for (Especialidade e : values()) {
+            if (e.getDescricao().equalsIgnoreCase(descricao.trim())) {
                 return e;
             }
         }
         throw new IllegalArgumentException("Especialidade inválida: " + descricao);
+    }
+
+    // ----------------- JSON → e ← Converter para eliminar 415 -----------------
+    @JsonValue
+    public String getDescricao() {
+        return descricao;
+    }
+
+    @JsonCreator
+    public static Especialidade fromJson(String valor) {
+        for (Especialidade e : values()) {
+            if (e.name().equalsIgnoreCase(valor)
+             || e.descricao.equalsIgnoreCase(valor.trim())) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Especialidade inválida: " + valor);
     }
 }

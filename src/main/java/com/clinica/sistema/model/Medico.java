@@ -4,22 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 
 @Entity
 @Table(name = "medico_table")
 public class Medico extends Pessoa {
     private Especialidade especialidade;
     private String planoDeSaude;
+
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Avaliacao> avaliacoes = new ArrayList<>();
-
 
     public Medico(String nome, String senha, Especialidade especialidade, String planoDeSaude) {
         super(nome, senha);
@@ -31,26 +29,38 @@ public class Medico extends Pessoa {
         super("", "");
     }
 
-    public Especialidade getEspecialidade() { return especialidade; }
-    public String getPlanoDeSaude() { return planoDeSaude; }
-    public List<Avaliacao> getAvaliacoes() { return avaliacoes; }
+    public Especialidade getEspecialidade() {
+        return especialidade;
+    }
+
+    public String getPlanoDeSaude() {
+        return planoDeSaude;
+    }
+
+    public List<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
 
     public double getMediaEstrelas() {
         if (avaliacoes == null || avaliacoes.isEmpty()) return 0;
-        return avaliacoes.stream().mapToInt(Avaliacao::getNota).average().orElse(0);
+        return avaliacoes.stream()
+                         .mapToInt(Avaliacao::getNota)
+                         .average()
+                         .orElse(0);
     }
 
     public void setEspecialidade(Especialidade especialidade) {
         this.especialidade = especialidade;
     }
+
     public void setPlanoDeSaude(String planoDeSaude) {
         this.planoDeSaude = planoDeSaude;
     }
 
-    public void setAvaliacoes(ArrayList<Object> objects) {
+    //  ← corrige o setter que antes usava tipo errado e atribuía a si mesmo
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
         this.avaliacoes = avaliacoes;
     }
 
-
-    // setters, equals/hashCode, etc...
+    // mantenha aqui todos seus setters adicionais, equals/hashCode, toString etc.
 }

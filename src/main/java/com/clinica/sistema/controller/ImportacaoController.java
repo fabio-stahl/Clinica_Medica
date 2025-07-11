@@ -1,6 +1,7 @@
 package com.clinica.sistema.controller;
 
 import com.clinica.sistema.model.*;
+import com.clinica.sistema.model.Avaliacao;
 import com.clinica.sistema.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

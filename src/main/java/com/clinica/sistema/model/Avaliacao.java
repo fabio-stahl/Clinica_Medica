@@ -1,13 +1,8 @@
-package com.clinica.sistema.model;
-
+import com.clinica.sistema.model.Paciente;
+import com.clinica.sistema.model.Medico;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;  // ← import necessário
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "avaliacao_table")
@@ -20,7 +15,8 @@ public class Avaliacao {
     @ManyToOne
     private Paciente paciente;
 
-    @ManyToOne                           // ← vincula com @JsonManagedReference em Medico
+    @ManyToOne
+    @JsonBackReference  // evita loop com @JsonManagedReference do lado do Medico
     private Medico medico;
 
     private int nota;
@@ -35,17 +31,17 @@ public class Avaliacao {
         this.comentario = comentario;
     }
 
-    public Long getId() { return id; }
-    public Paciente getPaciente() { return paciente; }
-    public Medico getMedico() { return medico; }
-    public int getNota() { return nota; }
-    public String getComentario() { return comentario; }
+    // Getters
+    public Long getId()              { return id; }
+    public Paciente getPaciente()   { return paciente; }
+    public Medico getMedico()       { return medico; }
+    public int getNota()            { return nota; }
+    public String getComentario()   { return comentario; }
 
+    // Setters
+    public void setId(Long id)                { this.id = id; }
     public void setPaciente(Paciente paciente) { this.paciente = paciente; }
-    public void setMedico(Medico medico)     { this.medico = medico; }
-    public void setNota(int nota)            { this.nota = nota; }
-    public void setComentario(String c)      { this.comentario = c; }
-    public void setId(long l) {
-        this.id = l;
-    }
+    public void setMedico(Medico medico)       { this.medico = medico; }
+    public void setNota(int nota)              { this.nota = nota; }
+    public void setComentario(String c)        { this.comentario = c; }
 }
