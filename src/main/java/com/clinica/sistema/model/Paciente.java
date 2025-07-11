@@ -26,10 +26,10 @@ public class Paciente extends Pessoa {
         return !planoDeSaude.equalsIgnoreCase("não tenho");
     }
     public void setPlanoDeSaude(String campo) {
-        this.planoDeSaude=planoDeSaude;
+        this.planoDeSaude=campo;
     }
 
     public void setIdade(int i) {
-        this.idade = idade;
+        this.idade = i;
     }
 }
