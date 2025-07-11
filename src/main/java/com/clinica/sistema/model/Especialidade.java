@@ -1,4 +1,5 @@
 package com.clinica.sistema.model;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum Especialidade {
     CARDIOLOGIA("Cardiologia"),
@@ -29,4 +30,13 @@ public enum Especialidade {
         return descricao.equalsIgnoreCase(especialidade);
     }
 
+    @JsonCreator
+    public static Especialidade fromDescricao(String descricao) {
+        for (Especialidade e : Especialidade.values()) {
+            if (e.getDescricao().equalsIgnoreCase(descricao)) {
+                return e;
+            }
+        }
+        throw new IllegalArgumentException("Especialidade inválida: " + descricao);
+    }
 }

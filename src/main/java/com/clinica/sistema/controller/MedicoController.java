@@ -26,7 +26,7 @@ public class MedicoController {
     private MedicoService medicoService;
 
     // POST /medicos
-    @PostMapping(consumes = "application/json")
+    @PostMapping
     public ResponseEntity<String> cadastrarMedico(@RequestBody Medico medico) {
         medicoService.cadastrarMedico(medico);
         return ResponseEntity.ok("Médico cadastrado com sucesso!");
