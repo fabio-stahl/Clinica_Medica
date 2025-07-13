@@ -5,7 +5,7 @@ public class MedicoDTO {
     private String especialidade;
     private String planoDeSaude;
 
-    // Getters e Setters
+    // Getters e Setters DEVEM existir
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 

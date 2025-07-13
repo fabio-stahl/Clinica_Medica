@@ -40,13 +40,22 @@ public enum Especialidade {
     }
 
     // mantém aquele fromDescricao original (para seu PUT/update)
-    public static Especialidade fromDescricao(String descricao) {
+    public static Especialidade fromDescricao(String valor) {
+        if (valor == null) {
+            throw new IllegalArgumentException("Especialidade não pode ser nula");
+        }
+
+        String normalized = valor.trim().toUpperCase();
+
         for (Especialidade e : values()) {
-            if (e.getDescricao().equalsIgnoreCase(descricao.trim())) {
+            if (e.name().equals(normalized)) {
+                return e;
+            }
+            if (e.descricao.equalsIgnoreCase(normalized)) {
                 return e;
             }
         }
-        throw new IllegalArgumentException("Especialidade inválida: " + descricao);
+        throw new IllegalArgumentException("Especialidade inválida: " + valor);
     }
 
     // ----------------- JSON → e ← Converter para eliminar 415 -----------------
