@@ -146,25 +146,30 @@ public class TelaConsultaController {
 
     @PostMapping("/cancelar")
     public ResponseEntity<String> cancelarConsulta(@RequestBody CancelamentoDTO dto) {
-        Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
-        if (paciente == null) {
-            return ResponseEntity.badRequest().body("Paciente não encontrado.");
-        }
-
-        LocalDateTime dataHora;
         try {
-            dataHora = LocalDateTime.parse(dto.getDataHora());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Formato de data/hora inválido.");
-        }
+            Paciente paciente = pacienteRepository.findByNome(dto.getNomePaciente());
+            if (paciente == null) {
+                return ResponseEntity.badRequest().body("Paciente não encontrado.");
+            }
 
-        Consulta consulta = consultaRepository.findByPacienteAndData(paciente, dataHora);
-        if (consulta == null) {
-            return ResponseEntity.badRequest().body("Consulta não encontrada.");
-        }
+            LocalDateTime dataHora;
+            try {
+                dataHora = LocalDateTime.parse(dto.getDataHora());
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body("Formato de data/hora inválido.");
+            }
 
-        consultaService.cancelarConsulta(consulta);
-        return ResponseEntity.ok("Consulta cancelada com sucesso!");
+            Consulta consulta = consultaRepository.findByPacienteAndData(paciente, dataHora);
+            if (consulta == null) {
+                return ResponseEntity.badRequest().body("Consulta não encontrada.");
+            }
+
+            consultaService.cancelarConsulta(consulta);
+            return ResponseEntity.ok("Consulta cancelada com sucesso!");
+        } catch (Exception e){
+            return ResponseEntity.status(500)
+                    .body("Erro interno: " + e.getMessage());
+        }
     }
 
     public static class CancelamentoDTO {
