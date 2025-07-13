@@ -1,11 +1,13 @@
-1,Fabio,Cardiologia,Unimed,12
-1,Fabiano,Cardiologia,Unimed,12
-2,David,Pediatria,Bradesco Saúde,12
-3,Icaro,Geriatria,Unimed,12
-4,Tiradentes,Cardiologia,Unimed,12
-5,Maria,Cardiologia,Amil,12
-6,Mariana,Urologia,SulAmérica,12
-7,Fabricio,Gastroenterologia,Bradesco Saúde,12
-8,Laercio,Gastroenterologia,Hapvida,12
-9,F,Endocrinologia,Bradesco Saúde,12
-10,Paulo,Geriatria,Unimed,12
+ID,Nome,Especialidade,PlanoDeSaude,MediaNotas
+1,Fabiano,Cardiologia,Unimed,5,00
+2,David,Pediatria,Bradesco Saï¿½de,0,00
+3,Icaro,Geriatria,Unimed,0,00
+4,Tiradentes,Cardiologia,Unimed,0,00
+5,Maria,Cardiologia,Amil,0,00
+6,Mariana,Urologia,SulAmï¿½rica,0,00
+7,Fabricio,Gastroenterologia,Bradesco Saï¿½de,0,00
+8,Laercio,Gastroenterologia,Hapvida,0,00
+9,F,Endocrinologia,Bradesco Saï¿½de,0,00
+10,Gaginho,Dermatologia,Amil,0,00
+11,Jorge Cabral de Matos,Cardiologia,Unimed,98765
+12,Rafaela,Dermatologia,Unimed,12

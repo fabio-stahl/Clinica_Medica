@@ -42,22 +42,30 @@ public class MedicoController {
 
     // PUT /medicos/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizarMedico(@PathVariable Long id, @RequestBody MedicoDTO medicoDTO) {
+    public ResponseEntity<String> atualizarMedico(
+            @PathVariable Long id,
+            @RequestBody MedicoDTO medicoDTO
+    ) {
         try {
             Medico medico = medicoService.buscarPorId(id);
             if (medico == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Médico não encontrado.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Médico não encontrado.");
             }
 
+            // Usar os getters corretos do DTO
             medico.setNome(medicoDTO.getNome());
-            medico.setEspecialidade(Especialidade.fromDescricao(medicoDTO.getEspecialidade()));  // converte usando o fromDescricao
+            medico.setEspecialidade(
+                    Especialidade.fromDescricao(medicoDTO.getEspecialidade())
+            );
             medico.setPlanoDeSaude(medicoDTO.getPlanoDeSaude());
 
-            medicoRepository.save(medico);  
+            medicoRepository.save(medico);
 
             return ResponseEntity.ok("Médico atualizado com sucesso.");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Especialidade inválida: " + e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body("Especialidade inválida: " + e.getMessage());
         }
     }
 
