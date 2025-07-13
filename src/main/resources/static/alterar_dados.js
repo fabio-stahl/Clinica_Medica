@@ -28,7 +28,7 @@ document.getElementById("formAlterar").addEventListener("submit", async function
       localStorage.setItem("usuario", novoNome);
       localStorage.setItem("especialidade", novaEspecialidade);
       localStorage.setItem("plano", novoPlano);
-      window.location.href = "medico.html";
+      window.location.href = "index.html";
     } else {
       alert("Erro ao atualizar dados.");
     }
